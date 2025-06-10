@@ -40,7 +40,7 @@ export function HeroSection() {
 					<Button
 						size="lg"
 						variant="outline"
-						className="hover:scale-105 transition-all duration-300 hover:bg-gradient-primary-purple hover:opacity-10"
+						className="group hover:scale-105 duration-300 hover:bg-gradient-primary-purple transition-all"
 					>
 						Learn More
 					</Button>
