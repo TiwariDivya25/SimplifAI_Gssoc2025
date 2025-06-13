@@ -26,11 +26,11 @@ export async function POST(req: NextRequest) {
 				messages: [
 					{
 						role: "user",
-						content: `Assume you are a old skilled professor who knows everything, A student given you a text of a book. Now return a json format data in which consists summary,flashcards,quiz . where summary contains the summary of text that the student have provided, flashcards contain 4 questions with answer proper key values, and quiz contains 10 question with each 4 mcq. all these are retreived from the text that the student have provided. Here is the text :${data.text}`,
+						content: `Assume you are a old skilled professor who knows everything, A student given you a text of a book and a question related to that book, Now return a json format data in which consists an answer key whose value is the answer that you will give for the question (ensure whatever you give must satisfy with the book text). all these are retreived from the text that the student have provided. Here is the book :${data.text} and question`,
 					},
 					{
 						role: "assistant",
-						content: "{summary:{},flashcards:[{question:,answer:},...],quiz:[{question:...,options:[],correct:..}]}",
+						content: "{answer:...}",
 					},
 				],
 			};
@@ -63,11 +63,11 @@ export async function POST(req: NextRequest) {
 				messages: [
 					{
 						role: "user",
-						content: `Assume you are a old skilled professor who knows everything, A student given you a text of a book. Now return a json format data in which consists summary,flashcards,quiz . where summary contains the summary of text that the student have provided, flashcards contain 4 questions with answer proper key values, and quiz contains 10 question with each 4 mcq. all these are retreived from the text that the student have provided. Here is the text :${text}`,
+						content: `Assume you are a old skilled professor who knows everything, A student given you a text of a book and a question related to that book, Now return a json format data in which consists an answer key whose value is the answer that you will give for the question (ensure whatever you give must satisfy with the book text). all these are retreived from the text that the student have provided. Here is the book :${text} and question`,
 					},
 					{
 						role: "assistant",
-						content: "{summary:{},flashcards:[{question:,answer:},...],quiz:[{question:...,options:[],correct:..}]}",
+						content: "{answer:...}",
 					},
 				],
 			};
