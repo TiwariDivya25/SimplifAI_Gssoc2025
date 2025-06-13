@@ -50,9 +50,8 @@ export function FileUploader() {
 		const formData = new FormData();
 		formData.append("file", file);
 		formData.append("type", file.type);
-
 		try {
-			const res = await axios.post("http://localhost:3000/api/parse-pdf", formData, {
+			const res = await axios.post(`/api/parse-pdf`, formData, {
 				headers: {},
 			});
 			const data = await res.data;

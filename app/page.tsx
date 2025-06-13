@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/hero-section";
 import { AnimatedBackground } from "@/components/animated-background";
 
 export default function Home() {
+
 	return (
 		<main className="flex min-h-screen flex-col relative">
 			<AnimatedBackground />
@@ -13,7 +14,6 @@ export default function Home() {
 				<div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
 					<Features />
 				</div>
-
 				<div className="max-w-3xl mx-auto mt-16">
 					<Card className="border-2 border-dashed backdrop-blur-sm bg-card/80 hover:bg-card/90 transition-all duration-300 hover:scale-[1.01] hover:shadow-2xl hover:shadow-primary/10">
 						<CardHeader className="text-center">

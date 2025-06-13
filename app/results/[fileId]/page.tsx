@@ -4,10 +4,14 @@ import { FlashcardView } from "@/components/flashcard-view";
 import { SummaryView } from "@/components/summary-view";
 import { QuizView } from "@/components/quiz-view";
 
-export default async function ResultsPage({ params }: { params: { fileId: string } }) {
-	params = await params;
-	const index = params.fileId;
-	const fileName = decodeURIComponent(index);
+interface PageProps {
+	params: {
+		fileId: string;
+	};
+}
+
+export default function ResultsPage({ params }: PageProps) {
+	const fileName = decodeURIComponent(params.fileId);
 
 	return (
 		<main className="min-h-screen bg-muted/30">

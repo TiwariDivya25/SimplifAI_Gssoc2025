@@ -35,10 +35,10 @@ export async function POST(req: NextRequest) {
 				],
 			};
 			try {
-				const response = await axios.post("https://openrouter.ai/api/v1/chat/completions", openRouterPayload, {
+				const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_URL}`, openRouterPayload, {
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${process.env.NEXT_AI_API_KEY}`,
+						Authorization: `Bearer ${process.env.NEXT_PUBLIC_AI_API_KEY}`,
 					},
 				});
 				// Log or use the response as needed
@@ -73,10 +73,10 @@ export async function POST(req: NextRequest) {
 			};
 
 			try {
-				const response = await axios.post("https://openrouter.ai/api/v1/chat/completions", openRouterPayload, {
+				const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_URL}`, openRouterPayload, {
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: `Bearer ${process.env.NEXT_AI_API_KEY}`,
+						Authorization: `Bearer ${process.env.NEXT_PUBLIC_AI_API_KEY}`,
 					},
 				});
 				// Log or use the response as needed
