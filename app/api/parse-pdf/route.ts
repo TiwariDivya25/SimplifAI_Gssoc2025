@@ -14,90 +14,115 @@ export async function POST(req: NextRequest) {
 		return new Response(JSON.stringify({ error: "Type is not provided" }), { status: 400 });
 	}
 
-	// Convert to Buffer
 	const buffer = Buffer.from(await file.arrayBuffer());
 
 	try {
+		let textContent = "";
+
 		if (fileType === "application/pdf") {
 			const data = await pdfParse(buffer);
-
-			const openRouterPayload = {
-				model: "deepseek/deepseek-r1-0528-qwen3-8b:free",
-				messages: [
-					{
-						role: "user",
-						content: `Assume you are a old skilled professor who knows everything, A student given you a text of a book. Now return a json format data in which consists summary,flashcards,quiz . where summary contains the summary of text that the student have provided, flashcards contain 4 questions with answer proper key values, and quiz contains 10 question with each 4 mcq. all these are retreived from the text that the student have provided. Here is the text :${data.text}`,
-					},
-					{
-						role: "assistant",
-						content: "{summary:{},flashcards:[{question:,answer:},...],quiz:[{question:...,options:[],correct:..}]}",
-					},
-				],
-			};
-			try {
-				const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_URL}`, openRouterPayload, {
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${process.env.NEXT_PUBLIC_AI_API_KEY}`,
-					},
-				});
-				// Log or use the response as needed
-				console.log("OpenRouter response:", response.data);
-				return new Response(JSON.stringify({ text: response.data }), {
-					headers: { "Content-Type": "application/json" },
-					status: 200,
-				});
-			} catch (apiErr) {
-				console.error("OpenRouter API error:", apiErr);
-				// Optional: return error to client
-				return new Response(JSON.stringify({ error: apiErr }), {
-					headers: { "Content-Type": "application/json" },
-					status: 500,
-				});
-			}
+			textContent = data.text;
 		} else if (fileType === "text/plain") {
-			const text = buffer.toString("utf-8");
-
-			const openRouterPayload = {
-				model: "deepseek/deepseek-r1-0528-qwen3-8b:free",
-				messages: [
-					{
-						role: "user",
-						content: `Assume you are a old skilled professor who knows everything, A student given you a text of a book. Now return a json format data in which consists summary,flashcards,quiz . where summary contains the summary of text that the student have provided, flashcards contain 4 questions with answer proper key values, and quiz contains 10 question with each 4 mcq. all these are retreived from the text that the student have provided. Here is the text :${text}`,
-					},
-					{
-						role: "assistant",
-						content: "{summary:{},flashcards:[{question:,answer:},...],quiz:[{question:...,options:[],correct:..}]}",
-					},
-				],
-			};
-
-			try {
-				const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_URL}`, openRouterPayload, {
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${process.env.NEXT_PUBLIC_AI_API_KEY}`,
-					},
-				});
-				// Log or use the response as needed
-				console.log("OpenRouter response:", response.data);
-				return new Response(JSON.stringify({ text: response.data }), {
-					headers: { "Content-Type": "application/json" },
-					status: 200,
-				});
-			} catch (apiErr) {
-				console.error("OpenRouter API error:", apiErr);
-				// Optional: return error to client
-				return new Response(JSON.stringify({ error: apiErr }), {
-					headers: { "Content-Type": "application/json" },
-					status: 500,
-				});
-			}
+			textContent = buffer.toString("utf-8");
 		} else {
 			return new Response(JSON.stringify({ error: "Unsupported file type" }), { status: 415 });
 		}
+
+		const openRouterPayload = {
+			model: "deepseek/deepseek-r1-0528-qwen3-8b:free",
+			response_format: "json",
+			messages: [
+				{
+					role: "system",
+					content:
+						"You are a strict assistant. Only respond in raw valid JSON format. Do not explain, do not include markdown, and do not add commentary. Only output valid JSON.",
+				},
+				{
+					role: "user",
+					content: `A student has provided a text from a book. Return only the following JSON format:
+
+{
+  "summary": {
+    "mainPoints": [
+      { "keyPoint": "..." },
+      { "keyPoint": "..." },
+      { "keyPoint": "..." },
+      { "keyPoint": "..." }
+    ],
+    "keyInsights": "...",
+    "recommendations": [
+      { "statement": "..." },
+      { "statement": "..." },
+      { "statement": "..." }
+    ]
+  },
+  "flashcards": [
+    { "question": "...", "answer": "..." },
+    { "question": "...", "answer": "..." },
+    { "question": "...", "answer": "..." },
+    { "question": "...", "answer": "..." }
+  ],
+  "quiz": [
+    {
+      "question": "...",
+      "options": ["a", "b", "c", "d"],
+      "correct": Can be 1 or 2 or 3 or 4 according to question
+    },
+    {
+      "question": "...",
+      "options": ["a", "b", "c", "d"],
+      "correct": Can be 1 or 2 or 3 or 4 according to question
+    }
+    // Add 8 more entries just like above
+  ]
+}
+
+Important:
+- Follow the structure exactly.
+- Use only JSON syntax.
+- Do NOT explain anything.
+- Here is the input text:
+
+${textContent}`,
+				},
+			],
+		};
+
+		try {
+			const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_URL}`, openRouterPayload, {
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: `Bearer ${process.env.NEXT_PUBLIC_AI_API_KEY}`,
+				},
+			});
+
+			// Fallback: Extract only JSON if explanation sneaks in
+			const raw = response.data;
+			let jsonOnly = raw;
+			try {
+				const match = typeof raw === "string" ? raw.match(/\{[\s\S]*\}/) : null;
+				if (match) jsonOnly = JSON.parse(match[0]);
+			} catch (jsonParseErr) {
+				console.warn("Could not extract clean JSON:", jsonParseErr);
+			}
+
+			return new Response(JSON.stringify({ result: jsonOnly }), {
+				headers: { "Content-Type": "application/json" },
+				status: 200,
+			});
+		} catch (apiErr) {
+			console.error("OpenRouter API error:", apiErr);
+			return new Response(JSON.stringify({ error: "API call failed" }), {
+				headers: { "Content-Type": "application/json" },
+				status: 500,
+			});
+		}
 	} catch (err) {
 		console.error("File parsing error:", err);
-		return new Response(JSON.stringify({ error: "Failed to parse file" }), { status: 500 });
+		return new Response(JSON.stringify({ error: "Failed to parse file" }), {
+			headers: { "Content-Type": "application/json" },
+			status: 500,
+		});
 	}
 }

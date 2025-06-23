@@ -8,8 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { FileText, Upload, CheckCircle2, Sparkles } from "lucide-react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { Add_data } from "@/lib/store/slices/parseSlice";
 
 export function FileUploader() {
+	const dispatch = useDispatch();
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const [progress, setProgress] = useState(0);
@@ -55,8 +58,15 @@ export function FileUploader() {
 				headers: {},
 			});
 			const data = await res.data;
-			console.log(data);
-
+			const message = JSON.parse(data.result.choices[0].message.content);
+			console.log(message);
+			dispatch(
+				Add_data({
+					summary: message.summary,
+					flashcards: message.flashcards,
+					quiz: message.quiz,
+				})
+			);
 			// Simulate upload progress with more realistic timing
 			const progressInterval = setInterval(() => {
 				setProgress((prev) => {
