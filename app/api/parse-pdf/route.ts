@@ -57,10 +57,10 @@ export async function POST(req: NextRequest) {
     ]
   },
   "flashcards": [
-    { "question": "...", "answer": "..." },
-    { "question": "...", "answer": "..." },
-    { "question": "...", "answer": "..." },
-    { "question": "...", "answer": "..." }
+    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard" },
+    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard" },
+    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard" },
+    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard"}
   ],
   "quiz": [
     {

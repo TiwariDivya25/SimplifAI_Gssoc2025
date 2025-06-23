@@ -26,7 +26,7 @@ const ChatSlice = createSlice({
 		Delete_chat(state, action) {
 			state.chats = state.chats.filter((chat) => chat.id !== action.payload.id);
 		},
-		Drop_chat(state, action) {
+		Drop_chat(state) {
 			state.chats = [];
 		},
 	},

@@ -17,15 +17,12 @@ type QuizItem = {
 
 export function QuizView() {
 	const data = useSelector((state: RootState) => state.parse.quiz) as QuizItem[];
-
 	const quizQuestions = data || [];
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [showFeedback, setShowFeedback] = useState(false);
 	const [quizCompleted, setQuizCompleted] = useState(false);
-
 	const [selectedOption, setSelectedOption] = useState<number | null>(null);
-	const [showResult, setShowResult] = useState(false);
 	const [score, setScore] = useState(0);
 	const [answers, setAnswers] = useState<number[]>([]);
 
@@ -55,12 +52,21 @@ export function QuizView() {
 
 		if (currentQuestion < quizQuestions.length - 1) {
 			setCurrentQuestion(currentQuestion + 1);
-			setSelectedOption(null);
+			setSelectedOption(answers[currentQuestion + 1] ?? null);
 			setShowFeedback(false);
 		} else {
 			setQuizCompleted(true);
 		}
 	};
+
+	const handleBack = () => {
+		if (currentQuestion > 0) {
+			setCurrentQuestion(currentQuestion - 1);
+			setSelectedOption(answers[currentQuestion - 1] ?? null);
+			setShowFeedback(false);
+		}
+	};
+
 	const handleCheck = () => {
 		setShowFeedback(true);
 	};
@@ -98,14 +104,14 @@ export function QuizView() {
 										<div
 											key={index}
 											className={`flex items-center space-x-2 rounded-md border p-3 transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
-												selectedOption === index && !showResult ? "border-primary bg-primary/10 scale-[1.02]" : ""
+												selectedOption === index ? "border-primary bg-primary/10 scale-[1.02]" : ""
 											} ${
-												showResult && index === quizQuestions[currentQuestion].correct
+												showFeedback && index === correctIndex()
 													? "border-green-500 bg-green-500/10 animate-pulse-gentle"
 													: ""
 											} ${
-												showResult && selectedOption === index && index !== quizQuestions[currentQuestion].correct
-													? "border-red-500 bg-red-500/10 animate-bounce-gentle"
+												showFeedback && selectedOption === index && index !== correctIndex()
+													? "border-red-500 bg-red-500/10"
 													: ""
 											}`}
 										>
@@ -113,10 +119,8 @@ export function QuizView() {
 											<Label htmlFor={`option-${index}`} className="flex-1">
 												{option}
 											</Label>
-											{showResult && index === quizQuestions[currentQuestion].correct && (
-												<CheckCircle2 className="w-5 h-5 text-green-500" />
-											)}
-											{showResult && selectedOption === index && index !== quizQuestions[currentQuestion].correct && (
+											{showFeedback && index === correctIndex() && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+											{showFeedback && selectedOption === index && index !== correctIndex() && (
 												<XCircle className="w-5 h-5 text-red-500" />
 											)}
 										</div>
@@ -126,6 +130,9 @@ export function QuizView() {
 						</div>
 					</CardContent>
 					<CardFooter className="flex justify-between">
+						<Button onClick={handleBack} disabled={currentQuestion === 0} variant="outline">
+							Back
+						</Button>
 						{!showFeedback ? (
 							<Button onClick={handleCheck} disabled={selectedOption === null}>
 								Check Answer
