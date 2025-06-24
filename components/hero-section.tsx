@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export function HeroSection() {
 	const handleGetStarted = () => {
-		window.location.href = "/login";
+		window.location.href = "/signin";
 	};
 	const user = useSelector((state: RootState) => state.user.email);
 	return (
