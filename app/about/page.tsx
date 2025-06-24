@@ -1,0 +1,389 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Brain, Users, Target, Award, Lightbulb, Heart, Globe, Zap, Sparkles, Rocket, Github } from "lucide-react";
+import Link from "next/link";
+
+export default function AboutPage() {
+	const team = [
+		{
+			name: "Piyush Dixit",
+			role: "Full Stack Developer",
+			bio: "A Developer, passionate about building scalable web applications. Can debug code faster than you can say 'GG', and occasionally dreams in Binary. Fueled by anime,coffee, memes, and the thrill of deploying to production on Fridays.",
+			gradient: "from-purple-500 to-pink-500",
+			initials: "PD",
+		},
+	];
+
+	const values = [
+		{
+			icon: <Brain className="w-8 h-8" />,
+			title: "AI-First Innovation",
+			description:
+				"We believe artificial intelligence should augment human learning capabilities, making education more personalized and effective.",
+			gradient: "from-purple-500 to-pink-500",
+		},
+		{
+			icon: <Users className="w-8 h-8" />,
+			title: "Universal Accessibility",
+			description:
+				"Quality education should be accessible to everyone, regardless of background, resources, or learning style.",
+			gradient: "from-blue-500 to-cyan-500",
+		},
+		{
+			icon: <Target className="w-8 h-8" />,
+			title: "Personalized Learning",
+			description:
+				"Every learner is unique. Our tools adapt to individual learning styles, pace, and preferences for optimal results.",
+			gradient: "from-green-500 to-emerald-500",
+		},
+		{
+			icon: <Heart className="w-8 h-8" />,
+			title: "Learning with Joy",
+			description:
+				"We understand learning challenges and strive to make the educational journey engaging and enjoyable.",
+			gradient: "from-orange-500 to-red-500",
+		},
+	];
+
+	const milestones = [
+		{
+			year: "2025",
+			event: "IDEA Formation",
+			description: "Started with a vision to revolutionize learning through AI.",
+			icon: <Lightbulb className="w-6 h-6" />,
+		},
+		{
+			year: "2025",
+			event: "First Prototype",
+			description: "Reached our first milestone with a working AI prototype for document summarization",
+			icon: <Users className="w-6 h-6" />,
+		},
+		{
+			year: "2025",
+			event: "Rag Integration (Working on it)",
+			description: "Currently integrating RAG (Retrieval-Augmented Generation) for enhanced learning experiences",
+			icon: <Brain className="w-6 h-6" />,
+		},
+		{
+			year: "2026",
+			event: "Target",
+			description: "Aim to launch our first public beta with core features and initial user base",
+			icon: <Globe className="w-6 h-6" />,
+		},
+	];
+
+	return (
+		<div className="min-h-screen bg-black text-white">
+			{/* Animated background */}
+			<div className="fixed inset-0 -z-10">
+				<div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float-slow" />
+				<div className="absolute top-3/4 right-1/4 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-float-slower" />
+				<div className="absolute top-1/2 left-1/2 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float" />
+				<div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-green-500/10 rounded-full blur-3xl animate-float-slow" />
+			</div>
+
+			{/* Header */}
+			<div className="relative z-10 border-b border-gray-800/50 backdrop-blur-sm">
+				<div className="container mx-auto px-4 py-6">
+					<div className="flex items-center justify-between">
+						<Link
+							href="/"
+							className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+						>
+							Simplifai
+						</Link>
+						<nav className="hidden md:flex space-x-8">
+							<Link href="/" className="text-gray-300 hover:text-white transition-colors duration-300">
+								Home
+							</Link>
+							<Link href="/pricing" className="text-gray-300 hover:text-white transition-colors duration-300">
+								Pricing
+							</Link>
+							<Link href="/about" className="text-white font-medium">
+								About
+							</Link>
+						</nav>
+					</div>
+				</div>
+			</div>
+
+			{/* Hero Section */}
+			<div className="relative z-10 container mx-auto px-4 py-20">
+				<div className="text-center max-w-5xl mx-auto">
+					<div className="inline-flex items-center justify-center px-4 py-2 mb-8 text-sm font-medium rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 animate-pulse-gentle">
+						<Sparkles className="w-4 h-4 mr-2 text-purple-400 animate-bounce-gentle" />
+						<span className="text-purple-300">Our Story</span>
+					</div>
+
+					<h1 className="text-5xl md:text-7xl font-black mb-8 animate-fade-in-up">
+						Revolutionizing{" "}
+						<span className="bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient-x">
+							Learning
+						</span>{" "}
+						with AI
+					</h1>
+
+					<p className="text-xl text-gray-400 max-w-4xl mx-auto mb-16 leading-relaxed animate-fade-in-up animation-delay-200">
+						We&apos;re on a mission to make learning more efficient, engaging, and accessible for everyone. Our
+						cutting-edge AI transforms how people consume, understand, and retain information.
+					</p>
+
+					{/* Floating Stats */}
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20 animate-fade-in-up animation-delay-400">
+						{[
+							{
+								number: "1K+",
+								label: "Active Users",
+								icon: <Users className="w-6 h-6" />,
+								gradient: "from-blue-400 to-cyan-400",
+							},
+							{
+								number: "2M+",
+								label: "Documents Processed",
+								icon: <Brain className="w-6 h-6" />,
+								gradient: "from-green-400 to-emerald-400",
+							},
+							{
+								number: "98%",
+								label: "User Satisfaction",
+								icon: <Award className="w-6 h-6" />,
+								gradient: "from-purple-400 to-pink-400",
+							},
+							{
+								number: "50+",
+								label: "Countries",
+								icon: <Globe className="w-6 h-6" />,
+								gradient: "from-orange-400 to-red-400",
+							},
+						].map((stat, index) => (
+							<div
+								key={index}
+								className="group text-center cursor-pointer animate-fade-in-up"
+								style={{ animationDelay: `${(index + 4) * 100}ms` }}
+							>
+								<div className="mb-4 flex justify-center">
+									<div
+										className={`p-3 rounded-2xl bg-gradient-to-r ${stat.gradient} group-hover:scale-110 transition-transform duration-300`}
+									>
+										<div className="text-white">{stat.icon}</div>
+									</div>
+								</div>
+								<div
+									className={`text-3xl font-bold mb-2 bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300`}
+								>
+									{stat.number}
+								</div>
+								<div className="text-gray-500 text-sm">{stat.label}</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Mission Section */}
+			<div className="relative z-10 container mx-auto px-4 py-20">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-7xl mx-auto">
+					<div className="animate-fade-in-up">
+						<h2 className="text-4xl font-bold mb-8">Our Mission</h2>
+						<div className="space-y-6 text-lg text-gray-300 leading-relaxed">
+							<p>
+								Traditional learning methods often leave students overwhelmed, disengaged, and struggling to retain
+								information. We saw an opportunity to change that fundamentally.
+							</p>
+							<p>
+								Our AI-powered platform transforms dense, complex documents into personalized learning experiences that
+								adapt to each individual&apos;s pace, style, and goals.
+							</p>
+							<p>
+								We believe that with the right tools, anyone can master any subject. That&apos;s why we&apos;re building
+								the future of education—one learner at a time.
+							</p>
+						</div>
+						<Button className="mt-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-4 h-auto hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25">
+							Check Github <Github className="inline-block w-5 h-5" />
+						</Button>
+					</div>
+
+					<div className="relative animate-fade-in-up animation-delay-200">
+						<div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-3xl blur-3xl animate-pulse-gentle" />
+						<Card className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-gray-700 transition-all duration-500 hover:scale-105">
+							<CardContent className="p-12 text-center">
+								<div className="mb-8">
+									<Zap className="w-20 h-20 mx-auto text-purple-400 animate-bounce-slow" />
+								</div>
+								<h3 className="text-2xl font-bold mb-6">Powered by Innovation</h3>
+								<p className="text-gray-400 leading-relaxed">
+									Our cutting-edge AI algorithms analyze learning patterns, optimize content delivery, and personalize
+									the educational experience for maximum retention and understanding.
+								</p>
+							</CardContent>
+						</Card>
+					</div>
+				</div>
+			</div>
+
+			{/* Values Section */}
+			<div className="relative z-10 container mx-auto px-4 py-20">
+				<div className="text-center mb-16">
+					<h2 className="text-4xl font-bold mb-6 animate-fade-in-up">Our Core Values</h2>
+					<p className="text-xl text-gray-400 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
+						The fundamental principles that guide everything we do
+					</p>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+					{values.map((value, index) => (
+						<Card
+							key={index}
+							className="group bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-gray-700 transition-all duration-500 hover:scale-105 animate-fade-in-up cursor-pointer"
+							style={{ animationDelay: `${index * 150}ms` }}
+						>
+							<CardHeader className="pb-6">
+								<div className="flex items-start gap-6">
+									<div
+										className={`p-4 rounded-2xl bg-gradient-to-r ${value.gradient} group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}
+									>
+										<div className="text-white">{value.icon}</div>
+									</div>
+									<div>
+										<CardTitle className="text-xl mb-3 group-hover:text-purple-400 transition-colors duration-300">
+											{value.title}
+										</CardTitle>
+										<p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+											{value.description}
+										</p>
+									</div>
+								</div>
+							</CardHeader>
+						</Card>
+					))}
+				</div>
+			</div>
+
+			{/* Timeline Section */}
+			<div className="relative z-10 container mx-auto px-4 py-20">
+				<div className="text-center mb-16">
+					<h2 className="text-4xl font-bold mb-6 animate-fade-in-up">Our Journey</h2>
+					<p className="text-xl text-gray-400 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
+						Key milestones in our mission to transform learning
+					</p>
+				</div>
+
+				<div className="max-w-4xl mx-auto">
+					<div className="relative">
+						{/* Timeline line */}
+						<div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-500 animate-fade-in" />
+
+						{milestones.map((milestone, index) => (
+							<div
+								key={index}
+								className={`relative flex items-center mb-16 animate-fade-in-up ${
+									index % 2 === 0 ? "justify-start" : "justify-end"
+								}`}
+								style={{ animationDelay: `${index * 200}ms` }}
+							>
+								<Card
+									className={`w-full max-w-md bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-gray-700 transition-all duration-500 hover:scale-105 group ${
+										index % 2 === 0 ? "mr-8" : "ml-8"
+									}`}
+								>
+									<CardHeader>
+										<div className="flex items-center gap-4 mb-4">
+											<div className="p-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 group-hover:scale-110 transition-transform duration-300">
+												<div className="text-white">{milestone.icon}</div>
+											</div>
+											<Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 font-semibold">
+												{milestone.year}
+											</Badge>
+										</div>
+										<CardTitle className="text-xl group-hover:text-purple-400 transition-colors duration-300">
+											{milestone.event}
+										</CardTitle>
+									</CardHeader>
+									<CardContent>
+										<p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+											{milestone.description}
+										</p>
+									</CardContent>
+								</Card>
+
+								{/* Timeline dot */}
+								<div className="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full border-4 border-black animate-pulse-gentle" />
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
+
+			{/* Team Section */}
+			<div className="relative z-10 container mx-auto px-4 py-20">
+				<div className="text-center mb-16">
+					<h2 className="text-4xl font-bold mb-6 animate-fade-in-up">Meet Our Team</h2>
+					<p className="text-xl text-gray-400 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
+						The brilliant minds behind Simplifai&apos;s innovation
+					</p>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+					{team.map((member, index) => (
+						<Card
+							key={index}
+							className="group bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-gray-700 transition-all duration-500 hover:scale-105 animate-fade-in-up cursor-pointer lg:col-span-4 md:col-span-2 col-span-1"
+							style={{ animationDelay: `${index * 150}ms` }}
+						>
+							<CardHeader className="text-center pb-6">
+								<div
+									className={`w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-r ${member.gradient} flex items-center justify-center text-white text-2xl font-bold group-hover:scale-110 transition-transform duration-300 shadow-lg`}
+								>
+									{member.initials}
+								</div>
+								<CardTitle className="text-lg mb-2 group-hover:text-purple-400 transition-colors duration-300">
+									{member.name}
+								</CardTitle>
+								<CardDescription className="text-purple-400 font-medium mb-4">{member.role}</CardDescription>
+								<p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+									{member.bio}
+								</p>
+							</CardHeader>
+						</Card>
+					))}
+				</div>
+			</div>
+
+			{/* CTA Section */}
+			<div className="relative z-10 container mx-auto px-4 py-20">
+				<div className="max-w-4xl mx-auto text-center">
+					<div className="relative bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-3xl p-12 border border-purple-500/20 backdrop-blur-sm animate-fade-in-up">
+						<div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-pink-500/5 rounded-3xl blur-xl" />
+						<div className="relative z-10">
+							<Rocket className="w-16 h-16 mx-auto mb-6 text-purple-400 animate-bounce-slow" />
+							<h2 className="text-4xl font-bold mb-6">Ready to Join Our Mission?</h2>
+							<p className="text-xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+								Whether you&apos;re a learner looking to accelerate your education or a developer wanting to contribute
+								to the future of learning, we&apos;d love to have you on board.
+							</p>
+							<div className="flex flex-col sm:flex-row gap-4 justify-center">
+								<Button
+									size="lg"
+									className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-4 h-auto hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25"
+								>
+									Start Learning Today
+								</Button>
+								<Button
+									size="lg"
+									variant="outline"
+									className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-gray-500 px-8 py-4 h-auto hover:scale-105 transition-all duration-300"
+									onClick={() => window.open("https://linkedin.com/in/piyushdixitizme", "_blank")}
+								>
+									Connect
+								</Button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}

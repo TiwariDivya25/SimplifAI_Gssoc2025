@@ -8,10 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { FileText, Upload, CheckCircle2, Sparkles } from "lucide-react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Add_data } from "@/lib/store/slices/parseSlice";
+import { RootState } from "@/lib/store";
 
 export function FileUploader() {
+	const user = useSelector((state: RootState) => state.user.email);
 	const dispatch = useDispatch();
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
@@ -43,22 +45,39 @@ export function FileUploader() {
 			setFile(e.dataTransfer.files[0]);
 		}
 	};
-
 	const handleSubmit = async (e: React.FormEvent) => {
+		if (user === "") {
+			router.push("/login");
+			return;
+		}
+
 		e.preventDefault();
 		if (!file) return;
 
 		setUploading(true);
 
+		const progressInterval = setInterval(() => {
+			setProgress((prev) => {
+				if (prev >= 60) return prev;
+				return prev + Math.random() * 10 + 5;
+			});
+		}, 200);
+
 		const formData = new FormData();
 		formData.append("file", file);
 		formData.append("type", file.type);
+
 		try {
 			const res = await axios.post(`/api/parse-pdf`, formData, {
 				headers: {},
 			});
 			const data = await res.data;
-			const message = JSON.parse(data.result.choices[0].message.content);
+
+			const raw = data.result.choices[0].message.content.trim();
+			const jsonStart = raw.indexOf("{");
+			const jsonEnd = raw.lastIndexOf("}");
+			const message = JSON.parse(raw.slice(jsonStart, jsonEnd + 1));
+
 			console.log(message);
 			dispatch(
 				Add_data({
@@ -67,22 +86,18 @@ export function FileUploader() {
 					quiz: message.quiz,
 				})
 			);
-			// Simulate upload progress with more realistic timing
-			const progressInterval = setInterval(() => {
-				setProgress((prev) => {
-					if (prev >= 100) {
-						clearInterval(progressInterval);
-						setTimeout(() => {
-							setUploading(false);
-							router.push(`/results/${encodeURIComponent(file.name)}`);
-						}, 500);
-						return 100;
-					}
-					return prev + Math.random() * 15 + 5;
-				});
-			}, 200);
+
+			setProgress(100);
+			clearInterval(progressInterval);
+
+			setTimeout(() => {
+				setUploading(false);
+				router.push(`/results/${encodeURIComponent(file.name)}`);
+			}, 800);
 		} catch (e) {
-			console.log(e);
+			console.error(e);
+			clearInterval(progressInterval);
+			setUploading(false);
 		}
 	};
 

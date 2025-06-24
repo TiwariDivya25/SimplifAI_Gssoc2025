@@ -20,28 +20,27 @@ export function QuizView() {
 	const quizQuestions = data || [];
 
 	const [currentQuestion, setCurrentQuestion] = useState(0);
-	const [showFeedback, setShowFeedback] = useState(false);
 	const [quizCompleted, setQuizCompleted] = useState(false);
 	const [selectedOption, setSelectedOption] = useState<number | null>(null);
 	const [score, setScore] = useState(0);
-	const [answers, setAnswers] = useState<number[]>([]);
+	const [answers, setAnswers] = useState<(number | null)[]>(Array(quizQuestions.length).fill(null));
 
 	if (!quizQuestions.length) return <p className="text-center text-muted-foreground">No quiz data found.</p>;
 
-	const correctIndex = () => {
-		const correct = quizQuestions[currentQuestion].correct;
+	const correctIndex = (questionIndex: number) => {
+		const correct = quizQuestions[questionIndex].correct;
 		const idx = Number(correct);
-		return isNaN(idx) ? -1 : idx;
+		return isNaN(idx) ? -1 : idx - 1;
 	};
 
 	const handleOptionSelect = (value: string) => {
-		setSelectedOption(Number.parseInt(value));
+		setSelectedOption(Number(value));
 	};
 
 	const handleNext = () => {
 		if (selectedOption === null) return;
 
-		const isCorrect = selectedOption === correctIndex();
+		const isCorrect = selectedOption === correctIndex(currentQuestion);
 		const newAnswers = [...answers];
 		newAnswers[currentQuestion] = selectedOption;
 		setAnswers(newAnswers);
@@ -52,8 +51,8 @@ export function QuizView() {
 
 		if (currentQuestion < quizQuestions.length - 1) {
 			setCurrentQuestion(currentQuestion + 1);
+			// Check if next question was already answered
 			setSelectedOption(answers[currentQuestion + 1] ?? null);
-			setShowFeedback(false);
 		} else {
 			setQuizCompleted(true);
 		}
@@ -63,22 +62,19 @@ export function QuizView() {
 		if (currentQuestion > 0) {
 			setCurrentQuestion(currentQuestion - 1);
 			setSelectedOption(answers[currentQuestion - 1] ?? null);
-			setShowFeedback(false);
 		}
-	};
-
-	const handleCheck = () => {
-		setShowFeedback(true);
 	};
 
 	const resetQuiz = () => {
 		setCurrentQuestion(0);
 		setSelectedOption(null);
-		setShowFeedback(false);
 		setQuizCompleted(false);
 		setScore(0);
-		setAnswers([]);
+		setAnswers(Array(quizQuestions.length).fill(null));
 	};
+
+	const isPreviouslyAnswered = answers[currentQuestion] !== null;
+	const currentCorrectAnswer = correctIndex(currentQuestion);
 
 	return (
 		<div className="max-w-2xl mx-auto">
@@ -98,7 +94,10 @@ export function QuizView() {
 					<CardContent>
 						<div className="mb-6">
 							<h3 className="text-lg font-medium mb-4">{quizQuestions[currentQuestion].question}</h3>
-							<RadioGroup value={selectedOption?.toString()} onValueChange={handleOptionSelect}>
+							<RadioGroup
+								value={selectedOption !== null ? selectedOption.toString() : ""}
+								onValueChange={handleOptionSelect}
+							>
 								<div className="space-y-3">
 									{quizQuestions[currentQuestion].options.map((option, index) => (
 										<div
@@ -106,21 +105,22 @@ export function QuizView() {
 											className={`flex items-center space-x-2 rounded-md border p-3 transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
 												selectedOption === index ? "border-primary bg-primary/10 scale-[1.02]" : ""
 											} ${
-												showFeedback && index === correctIndex()
-													? "border-green-500 bg-green-500/10 animate-pulse-gentle"
-													: ""
+												isPreviouslyAnswered && index === currentCorrectAnswer ? "border-green-500 bg-green-500/10" : ""
 											} ${
-												showFeedback && selectedOption === index && index !== correctIndex()
+												isPreviouslyAnswered && answers[currentQuestion] === index && index !== currentCorrectAnswer
 													? "border-red-500 bg-red-500/10"
 													: ""
 											}`}
+											onClick={() => handleOptionSelect(index.toString())}
 										>
-											<RadioGroupItem value={index.toString()} id={`option-${index}`} />
-											<Label htmlFor={`option-${index}`} className="flex-1">
+											<RadioGroupItem value={index.toString()} id={`option-${index}`} disabled={isPreviouslyAnswered} />
+											<Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer">
 												{option}
 											</Label>
-											{showFeedback && index === correctIndex() && <CheckCircle2 className="w-5 h-5 text-green-500" />}
-											{showFeedback && selectedOption === index && index !== correctIndex() && (
+											{isPreviouslyAnswered && index === currentCorrectAnswer && (
+												<CheckCircle2 className="w-5 h-5 text-green-500" />
+											)}
+											{isPreviouslyAnswered && answers[currentQuestion] === index && index !== currentCorrectAnswer && (
 												<XCircle className="w-5 h-5 text-red-500" />
 											)}
 										</div>
@@ -133,15 +133,9 @@ export function QuizView() {
 						<Button onClick={handleBack} disabled={currentQuestion === 0} variant="outline">
 							Back
 						</Button>
-						{!showFeedback ? (
-							<Button onClick={handleCheck} disabled={selectedOption === null}>
-								Check Answer
-							</Button>
-						) : (
-							<Button onClick={handleNext}>
-								{currentQuestion < quizQuestions.length - 1 ? "Next Question" : "See Results"}
-							</Button>
-						)}
+						<Button onClick={handleNext} disabled={selectedOption === null}>
+							{currentQuestion < quizQuestions.length - 1 ? "Next" : "Submit"}
+						</Button>
 					</CardFooter>
 				</Card>
 			) : (
@@ -167,7 +161,7 @@ export function QuizView() {
 								</div>
 							</div>
 							{score === quizQuestions.length && (
-								<div className="absolute inset-0 pointer-events-none">
+								<div className="absolute inset-0 pointer-events-none flex items-center justify-center">
 									<div className="animate-bounce-slow text-6xl">🎉</div>
 								</div>
 							)}

@@ -1,7 +1,14 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { RootState } from "@/lib/store";
 import { ArrowRight, Zap, Sparkles, Brain, Rocket } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export function HeroSection() {
+	const handleGetStarted = () => {
+		window.location.href = "/login";
+	};
+	const user = useSelector((state: RootState) => state.user.email);
 	return (
 		<div className="relative bg-gradient-to-br from-primary/10 via-purple-50/50 to-pink-50/30 dark:from-primary/5 dark:via-purple-950/20 dark:to-pink-950/10 pt-20 pb-16 overflow-hidden">
 			{/* Floating elements */}
@@ -30,17 +37,33 @@ export function HeroSection() {
 				</p>
 
 				<div className="flex flex-wrap justify-center gap-4 mt-10 animate-fade-in-up animation-delay-400">
-					<Button
-						size="lg"
-						className="gap-2 group hover:scale-105 transition-all duration-300 bg-gradient-primary-purple hover:bg-gradient-purple-pink text-white"
-					>
-						Get Started
-						<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-					</Button>
+					{user === "" ? (
+						<Button
+							size="lg"
+							className="gap-2 group hover:scale-105 transition-all duration-300 bg-gradient-primary-purple hover:bg-gradient-purple-pink text-white"
+							onClick={handleGetStarted}
+						>
+							Get Started
+							<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+						</Button>
+					) : (
+						<Button
+							size="lg"
+							className="gap-2 group hover:scale-105 transition-all duration-300 bg-gradient-primary-purple hover:bg-gradient-purple-pink text-white"
+							onClick={() => {
+								window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+								document.getElementById("file")?.click();
+							}}
+						>
+							Upload
+							<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+						</Button>
+					)}
 					<Button
 						size="lg"
 						variant="outline"
 						className="group hover:scale-105 duration-300 hover:bg-gradient-primary-purple transition-all"
+						onClick={() => (window.location.href = "/about")}
 					>
 						Learn More
 					</Button>
