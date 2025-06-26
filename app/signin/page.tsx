@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/lib/store/slices/userSlice";
 export default function SignInPage() {
 	const dispatch = useDispatch();
-	const { data: session, status } = useSession();
+	const { data: session } = useSession();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [formData, setFormData] = useState({
