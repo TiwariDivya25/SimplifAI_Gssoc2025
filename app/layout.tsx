@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import StoreProvider from "./store-provider";
+import { SessionProviderC } from "@/components/SessionProviderC";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en" suppressHydrationWarning>
 			<body className={inter.className}>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
-					<StoreProvider>{children}</StoreProvider>
+					<SessionProviderC>
+						<StoreProvider>{children}</StoreProvider>
+					</SessionProviderC>
 				</ThemeProvider>
 			</body>
 		</html>
