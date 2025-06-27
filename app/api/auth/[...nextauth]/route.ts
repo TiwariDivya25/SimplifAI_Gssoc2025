@@ -31,7 +31,6 @@ const authOptions: NextAuthOptions = {
 	],
 	pages: {
 		signIn: "/signin", // Optional: custom sign in page
-		newUser: "/signup", // Not supported by NextAuth, but you can handle it yourself
 	},
 };
 
