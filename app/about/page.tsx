@@ -90,7 +90,7 @@ export default function AboutPage() {
 					<div className="flex items-center justify-between">
 						<Link
 							href="/"
-							className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+							className="text-2xl hidden md:flex font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
 						>
 							Simplifai
 						</Link>

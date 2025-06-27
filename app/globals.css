@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.animate-fade-in-up { animation: fadeInUp 0.6s ease; }
 
 @theme {
   --color-primary: oklch(0.6 0.2 270);

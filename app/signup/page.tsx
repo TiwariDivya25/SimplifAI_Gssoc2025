@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, User, Github, Chrome, ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { Toast } from "@/components/toasts";
 
 export default function SignUpPage() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +22,7 @@ export default function SignUpPage() {
 		password: "",
 		confirmPassword: "",
 	});
+	const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
 
 	const passwordRequirements = [
 		{ text: "At least 8 characters", met: formData.password.length >= 8 },
@@ -33,6 +34,7 @@ export default function SignUpPage() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (formData.password !== formData.confirmPassword) {
+			setToast({ message: "Passwords do not match.", type: "error" });
 			return;
 		}
 
@@ -45,6 +47,7 @@ export default function SignUpPage() {
 
 		setIsLoading(false);
 		if (res.ok) {
+			setToast({ message: "Account created! Logging you in...", type: "success" });
 			await signIn("credentials", {
 				email: formData.email,
 				password: formData.password,
@@ -52,16 +55,18 @@ export default function SignUpPage() {
 				callbackUrl: "/",
 			});
 		} else {
-			// Handle error
+			const data = await res.json();
+			setToast({ message: data.error || "Failed to sign up. Please try again.", type: "error" });
 		}
 	};
 
 	const handleSocialLogin = (provider: string) => {
-		console.log(`Sign up with ${provider}`);
+		signIn(provider);
 	};
 
 	return (
 		<div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-6">
+			{toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 			{/* Animated background */}
 			<div className="fixed inset-0 -z-10">
 				<div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/5 to-pink-500/5 rounded-full blur-3xl animate-float-slow" />

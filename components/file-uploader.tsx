@@ -11,14 +11,17 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { Add_data } from "@/lib/store/slices/parseSlice";
 import { useSession } from "next-auth/react";
+import { Toast } from "./toasts";
 
 export function FileUploader() {
 	const dispatch = useDispatch();
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
 	const [progress, setProgress] = useState(0);
+	const [error, setError] = useState<string | null>(null);
 	const [dragActive, setDragActive] = useState(false);
 	const router = useRouter();
+	const session = useSession();
 
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
@@ -44,16 +47,16 @@ export function FileUploader() {
 			setFile(e.dataTransfer.files[0]);
 		}
 	};
-	const session = useSession();
 	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
 		if (!session.data?.user?.email) {
-			router.push("/signin");
+			setError("You must be signed in to upload a file!");
 			return;
 		}
-
-		e.preventDefault();
-		if (!file) return;
-
+		if (!file) {
+			setError("Please select a file to process.");
+			return;
+		}
 		setUploading(true);
 
 		const progressInterval = setInterval(() => {
@@ -73,7 +76,6 @@ export function FileUploader() {
 			});
 			const data = await res.data;
 
-			console.log(data);
 			const message = data.result.choices[0].message.content;
 			const parseMessage = JSON.parse(message);
 
@@ -96,11 +98,13 @@ export function FileUploader() {
 			console.error(e);
 			clearInterval(progressInterval);
 			setUploading(false);
+			setError("Failed to process the file. Please try again!");
 		}
 	};
 
 	return (
 		<form onSubmit={handleSubmit} className="space-y-6">
+			{error && <Toast message={error} type="error" onClose={() => setError(null)} />}
 			<div className="grid w-full gap-4">
 				<div
 					className={`relative flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-xl cursor-pointer transition-all duration-300 ${
@@ -144,7 +148,7 @@ export function FileUploader() {
 							</div>
 						</div>
 					)}
-					<Input id="file" type="file" className="hidden" accept=".pdf,.doc,.docx,.txt" onChange={handleFileChange} />
+					<Input id="file" type="file" className="hidden" accept=".pdf,.txt" onChange={handleFileChange} />
 					<label htmlFor="file" className="w-full h-full absolute top-0 left-0 cursor-pointer">
 						<span className="sr-only">Choose file</span>
 					</label>

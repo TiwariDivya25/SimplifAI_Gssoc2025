@@ -1,8 +1,7 @@
 "use client";
 
 import type React from "react";
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,6 +10,8 @@ import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, Github, Chrome, ArrowRight, Sparkles, Brain } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { Toast } from "@/components/toasts";
+
 export default function SignInPage() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,7 @@ export default function SignInPage() {
 		email: "",
 		password: "",
 	});
+	const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -30,18 +32,22 @@ export default function SignInPage() {
 		});
 		setIsLoading(false);
 		if (res?.error) {
-			// show error to user
+			setToast({ message: "Invalid email or password.", type: "error" });
 		} else {
-			window.location.href = "/";
+			setToast({ message: "Login successful!", type: "success" });
+			setTimeout(() => {
+				window.location.href = "/";
+			}, 1000);
 		}
 	};
 
 	const handleSocialLogin = (provider: string) => {
-		console.log(`Login with ${provider}`);
+		signIn(provider);
 	};
 
 	return (
 		<div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-6">
+			{toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 			{/* Animated background */}
 			<div className="fixed inset-0 -z-10">
 				<div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/5 to-pink-500/5 rounded-full blur-3xl animate-float-slow" />

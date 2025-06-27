@@ -3,12 +3,13 @@ import { FileUploader } from "@/components/file-uploader";
 import { Features } from "@/components/features";
 import { HeroSection } from "@/components/hero-section";
 import { AnimatedBackground } from "@/components/animated-background";
+import { UserLabel } from "@/components/user-label";
 
 export default function Home() {
-
 	return (
 		<main className="flex min-h-screen flex-col relative">
 			<AnimatedBackground />
+			<UserLabel />
 			<HeroSection />
 			<div className="container px-4 py-12 mx-auto relative z-10">
 				<div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

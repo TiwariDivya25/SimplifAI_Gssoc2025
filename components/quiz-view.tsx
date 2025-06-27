@@ -39,20 +39,23 @@ export function QuizView() {
 
 	const handleNext = () => {
 		if (selectedOption === null) return;
+		const prevAnswer = answers[currentQuestion];
+		const isPrevCorrect = prevAnswer === correctIndex(currentQuestion);
+		const isCurrentCorrect = selectedOption === correctIndex(currentQuestion);
 
-		const isCorrect = selectedOption === correctIndex(currentQuestion);
 		const newAnswers = [...answers];
 		newAnswers[currentQuestion] = selectedOption;
-		setAnswers(newAnswers);
 
-		if (isCorrect) {
-			setScore(score + 1);
-		}
+		let newScore = score;
+		if (!isPrevCorrect && isCurrentCorrect) newScore += 1;
+		if (isPrevCorrect && !isCurrentCorrect) newScore -= 1;
+
+		setAnswers(newAnswers);
+		setScore(newScore);
 
 		if (currentQuestion < quizQuestions.length - 1) {
 			setCurrentQuestion(currentQuestion + 1);
-			// Check if next question was already answered
-			setSelectedOption(answers[currentQuestion + 1] ?? null);
+			setSelectedOption(newAnswers[currentQuestion + 1] ?? null);
 		} else {
 			setQuizCompleted(true);
 		}
@@ -86,7 +89,7 @@ export function QuizView() {
 								Question {currentQuestion + 1} of {quizQuestions.length}
 							</CardTitle>
 							<span className="text-sm font-medium text-muted-foreground">
-								Score: {score}/{currentQuestion}
+								Score: {score}/{quizQuestions.length}
 							</span>
 						</div>
 						<CardDescription>Select the best answer based on the document content</CardDescription>

@@ -31,7 +31,7 @@ export const authOptions = {
 	],
 	pages: {
 		signIn: "/signin", // Optional: custom sign in page
-		// signUp: "/signup", // Not supported by NextAuth, but you can handle it yourself
+		signUp: "/signup", // Not supported by NextAuth, but you can handle it yourself
 	},
 };
 
