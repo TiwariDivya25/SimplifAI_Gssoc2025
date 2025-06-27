@@ -112,7 +112,7 @@ export function FileUploader() {
 			console.error(e);
 			clearInterval(progressInterval);
 			setUploading(false);
-			setError("Failed to process the file. Please try again!");
+			setError("Oops! The upload failed. Your file may have too many images or the server had a hiccup. Please try uploading again / with a different file.");
 		}
 	};
 
