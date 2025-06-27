@@ -130,7 +130,7 @@ ${textContent}`;
 				headers: {
 					"Content-Type": "application/json",
 					Accept: "application/json",
-					Authorization: `Bearer ${process.env.NEXT_PUBLIC_AI_API_KEY}`,
+					Authorization: `Bearer ${process.env.AI_API_KEY}`,
 				},
 			});
 

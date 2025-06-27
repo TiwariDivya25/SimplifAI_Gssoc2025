@@ -77,6 +77,8 @@ export function FileUploader() {
 			const data = await res.data;
 
 			const message = data.result.choices[0].message.content;
+			console.log("message:" + message);
+			console.log("Parsed m:" + JSON.parse(message));
 			const parseMessage = JSON.parse(message);
 
 			dispatch(
