@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,13 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, User, Github, Chrome, ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
 import Link from "next/link";
-import { signIn, useSession } from "next-auth/react";
-import { useDispatch } from "react-redux";
-import { login } from "@/lib/store/slices/userSlice";
+import { signIn } from "next-auth/react";
 
 export default function SignUpPage() {
-	const dispatch = useDispatch();
-	const { data: session } = useSession();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -33,12 +29,6 @@ export default function SignUpPage() {
 		{ text: "Contains lowercase letter", met: /[a-z]/.test(formData.password) },
 		{ text: "Contains number", met: /\d/.test(formData.password) },
 	];
-
-	useEffect(() => {
-		if (session?.user) {
-			dispatch(login({ name: session.user.name || "", email: session.user.email || "" }));
-		}
-	}, [session, dispatch]);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();

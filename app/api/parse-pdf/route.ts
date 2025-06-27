@@ -28,18 +28,9 @@ export async function POST(req: NextRequest) {
 			return new Response(JSON.stringify({ error: "Unsupported file type" }), { status: 415 });
 		}
 
-		const openRouterPayload = {
-			model: "deepseek/deepseek-r1-0528-qwen3-8b:free",
-			response_format: "json",
-			messages: [
-				{
-					role: "system",
-					content:
-						"You are a strict assistant. Only respond in raw valid JSON format. Do not explain, do not include markdown, and do not add commentary. Only output valid JSON.",
-				},
-				{
-					role: "user",
-					content: `A student has provided a text from a book. Return only the following JSON format:
+		const prompt = `You are a strict assistant. Output only valid JSON. No markdown. No explanation. No text before or after.
+
+Return the following structure filled with meaningful, well-written content based on the input. Each quiz question must have four options, and one must be correct. Set "correct" to 1, 2, 3, or 4 based on the position of the correct option in the array (1-based index). Flashcard difficulties must be "easy", "medium", or "hard". Questions must vary naturally in structure and tone.
 
 {
   "summary": {
@@ -57,33 +48,79 @@ export async function POST(req: NextRequest) {
     ]
   },
   "flashcards": [
-    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard" },
-    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard" },
-    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard" },
-    { "question": "...", "answer": "...",difficulty:"easy"or"medium"or"hard"}
+    { "question": "...", "answer": "...", "difficulty": "easy" },
+    { "question": "...", "answer": "...", "difficulty": "medium" },
+    { "question": "...", "answer": "...", "difficulty": "hard" },
+    { "question": "...", "answer": "...", "difficulty": "medium" }
   ],
   "quiz": [
     {
       "question": "...",
-      "options": ["a", "b", "c", "d"],
-      "correct": Can be 1 or 2 or 3 or 4 according to question
+      "options": ["...", "...", "...", "..."],
+      "correct": 1
     },
     {
       "question": "...",
-      "options": ["a", "b", "c", "d"],
-      "correct": Can be 1 or 2 or 3 or 4 according to question
+      "options": ["...", "...", "...", "..."],
+      "correct": 3
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 2
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 4
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 2
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 1
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 3
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 1
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 4
+    },
+    {
+      "question": "...",
+      "options": ["...", "...", "...", "..."],
+      "correct": 2
     }
-    // Add 8 more entries just like above
   ]
 }
 
-Important:
-- Follow the structure exactly.
-- Use only JSON syntax.
-- Do NOT explain anything.
-- Here is the input text:
+INPUT TEXT:
+${textContent}`;
 
-${textContent}`,
+		const openRouterPayload = {
+			model: "deepseek/deepseek-r1-0528-qwen3-8b:free",
+			response_format: "json",
+			messages: [
+				{
+					role: "system",
+					content: "You are a strict JSON generator assistant. Always reply with valid JSON only.",
+				},
+				{
+					role: "user",
+					content: prompt,
 				},
 			],
 		};

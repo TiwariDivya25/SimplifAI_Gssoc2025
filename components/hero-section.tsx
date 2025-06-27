@@ -2,13 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { RootState } from "@/lib/store";
 import { ArrowRight, Zap, Sparkles, Brain, Rocket } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 
 export function HeroSection() {
 	const handleGetStarted = () => {
 		window.location.href = "/signin";
 	};
-	const user = useSelector((state: RootState) => state.user.email);
+	const user = useSession().data?.user;
 	return (
 		<div className="relative bg-gradient-to-br from-primary/10 via-purple-50/50 to-pink-50/30 dark:from-primary/5 dark:via-purple-950/20 dark:to-pink-950/10 pt-20 pb-16 overflow-hidden">
 			{/* Floating elements */}
@@ -37,7 +38,7 @@ export function HeroSection() {
 				</p>
 
 				<div className="flex flex-wrap justify-center gap-4 mt-10 animate-fade-in-up animation-delay-400">
-					{user === "" ? (
+					{!user ? (
 						<Button
 							size="lg"
 							className="gap-2 group hover:scale-105 transition-all duration-300 bg-gradient-primary-purple hover:bg-gradient-purple-pink text-white"

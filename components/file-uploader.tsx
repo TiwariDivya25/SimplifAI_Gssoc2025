@@ -8,12 +8,11 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { FileText, Upload, CheckCircle2, Sparkles } from "lucide-react";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Add_data } from "@/lib/store/slices/parseSlice";
-import { RootState } from "@/lib/store";
+import { useSession } from "next-auth/react";
 
 export function FileUploader() {
-	const user = useSelector((state: RootState) => state.user.email);
 	const dispatch = useDispatch();
 	const [file, setFile] = useState<File | null>(null);
 	const [uploading, setUploading] = useState(false);
@@ -45,9 +44,10 @@ export function FileUploader() {
 			setFile(e.dataTransfer.files[0]);
 		}
 	};
+	const session = useSession();
 	const handleSubmit = async (e: React.FormEvent) => {
-		if (user === "") {
-			router.push("/login");
+		if (!session.data?.user?.email) {
+			router.push("/signin");
 			return;
 		}
 
@@ -73,17 +73,15 @@ export function FileUploader() {
 			});
 			const data = await res.data;
 
-			const raw = data.result.choices[0].message.content.trim();
-			const jsonStart = raw.indexOf("{");
-			const jsonEnd = raw.lastIndexOf("}");
-			const message = JSON.parse(raw.slice(jsonStart, jsonEnd + 1));
+			console.log(data);
+			const message = data.result.choices[0].message.content;
+			const parseMessage = JSON.parse(message);
 
-			console.log(message);
 			dispatch(
 				Add_data({
-					summary: message.summary,
-					flashcards: message.flashcards,
-					quiz: message.quiz,
+					summary: parseMessage.summary,
+					flashcards: parseMessage.flashcards,
+					quiz: parseMessage.quiz,
 				})
 			);
 
