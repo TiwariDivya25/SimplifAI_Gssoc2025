@@ -1,9 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { RootState } from "@/lib/store";
 import { ArrowRight, Zap, Sparkles, Brain, Rocket } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { useSelector } from "react-redux";
 
 export function HeroSection() {
 	const handleGetStarted = () => {
