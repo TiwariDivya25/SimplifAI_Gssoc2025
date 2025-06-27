@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Brain, Users, Target, Award, Lightbulb, Heart, Globe, Zap, Sparkles, Rocket, Github } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import MobileMenu from "@/components/MobileMenu";
 
 export default function AboutPage() {
 	const team = [
@@ -74,10 +76,12 @@ export default function AboutPage() {
 		},
 	];
 
+	const [menuOpen, setMenuOpen] = useState(false);
+
 	return (
 		<div className="min-h-screen bg-black text-white">
 			{/* Animated background */}
-			<div className="fixed inset-0 -z-10">
+			<div className="fixed inset-0 -z-10 pointer-events-none">
 				<div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float-slow" />
 				<div className="absolute top-3/4 right-1/4 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl animate-float-slower" />
 				<div className="absolute top-1/2 left-1/2 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float" />
@@ -90,10 +94,18 @@ export default function AboutPage() {
 					<div className="flex items-center justify-between">
 						<Link
 							href="/"
-							className="text-2xl hidden md:flex font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+							className="text-2xl  hidden md:flex font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
 						>
 							Simplifai
 						</Link>
+						<div
+							className="text-2xl md:hidden  font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+							onClick={() => setMenuOpen(!menuOpen)}
+						>
+							Simplifai
+						</div>
+						{menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
+
 						<nav className="hidden md:flex space-x-8">
 							<Link href="/" className="text-gray-300 hover:text-white transition-colors duration-300">
 								Home
@@ -110,7 +122,7 @@ export default function AboutPage() {
 			</div>
 
 			{/* Hero Section */}
-			<div className="relative z-10 container mx-auto px-4 py-20">
+			<div className="relative z-0 container mx-auto px-4 py-20">
 				<div className="text-center max-w-5xl mx-auto">
 					<div className="inline-flex items-center justify-center px-4 py-2 mb-8 text-sm font-medium rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 animate-pulse-gentle">
 						<Sparkles className="w-4 h-4 mr-2 text-purple-400 animate-bounce-gentle" />
@@ -201,22 +213,34 @@ export default function AboutPage() {
 								the future of education—one learner at a time.
 							</p>
 						</div>
-						<Button className="mt-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-4 h-auto hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25">
+						<Button
+							className="mt-8 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-4 h-auto hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25"
+							onClick={() => window.open("https://github.com/Er-luffy-d")}
+						>
 							Check Github <Github className="inline-block w-5 h-5" />
 						</Button>
 					</div>
 
 					<div className="relative animate-fade-in-up animation-delay-200">
 						<div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-3xl blur-3xl animate-pulse-gentle" />
-						<Card className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-gray-700 transition-all duration-500 hover:scale-105">
+						<Card
+							className="relative bg-gray-900/50 backdrop-blur-sm border border-gray-800 hover:border-gray-700 transition-all duration-500 hover:scale-105 overflow-hidden"
+							style={{
+								backgroundImage: "url(/avatar.png)",
+								backgroundSize: "contain",
+								backgroundBlendMode: "multiply",
+								backgroundRepeat: "no-repeat",
+								backgroundPosition: "left",
+							}}
+						>
 							<CardContent className="p-12 text-center">
 								<div className="mb-8">
 									<Zap className="w-20 h-20 mx-auto text-purple-400 animate-bounce-slow" />
 								</div>
-								<h3 className="text-2xl font-bold mb-6">Powered by Innovation</h3>
-								<p className="text-gray-400 leading-relaxed">
-									Our cutting-edge AI algorithms analyze learning patterns, optimize content delivery, and personalize
-									the educational experience for maximum retention and understanding.
+								<h3 className="text-2xl font-bold mb-6">Powered by Curiosity</h3>
+								<p className="text-white/80 leading-relaxed">
+									SimplifAI was born out of a simple idea: to make learning easier, faster, and more enjoyable for
+									everyone.
 								</p>
 							</CardContent>
 						</Card>
@@ -368,6 +392,7 @@ export default function AboutPage() {
 								<Button
 									size="lg"
 									className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold px-8 py-4 h-auto hover:scale-105 transition-all duration-300 shadow-lg shadow-purple-500/25"
+									onClick={() => window.open("https://simplif-ai-xi.vercel.app/", "_blank")}
 								>
 									Start Learning Today
 								</Button>

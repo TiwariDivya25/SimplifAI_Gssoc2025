@@ -1,8 +1,11 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, Star, Zap, Crown, Rocket, X } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import MobileMenu from "@/components/MobileMenu";
 
 export default function PricingPage() {
 	const plans = [
@@ -106,6 +109,8 @@ export default function PricingPage() {
 		},
 	];
 
+	const [menuOpen, setMenuOpen] = useState(false);
+
 	return (
 		<div className="min-h-screen bg-black text-white">
 			{/* Animated background */}
@@ -121,10 +126,18 @@ export default function PricingPage() {
 					<div className="flex items-center justify-between">
 						<Link
 							href="/"
-							className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+							className="text-2xl  hidden md:flex font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
 						>
 							Simplifai
 						</Link>
+						<div
+							className="text-2xl md:hidden  font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+							onClick={() => setMenuOpen(!menuOpen)}
+						>
+							Simplifai
+						</div>
+						{menuOpen && <MobileMenu onClose={() => setMenuOpen(false)} />}
+
 						<nav className="hidden md:flex space-x-8">
 							<Link href="/" className="text-gray-300 hover:text-white transition-colors duration-300">
 								Home
@@ -141,7 +154,7 @@ export default function PricingPage() {
 			</div>
 
 			{/* Hero Section */}
-			<div className="relative z-10 container mx-auto px-4 py-20">
+			<div className="relative z-0 container mx-auto px-4 py-20">
 				<div className="text-center max-w-4xl mx-auto">
 					<div className="inline-flex items-center justify-center px-4 py-2 mb-8 text-sm font-medium rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 animate-pulse-gentle">
 						<Rocket className="w-4 h-4 mr-2 text-purple-400" />
