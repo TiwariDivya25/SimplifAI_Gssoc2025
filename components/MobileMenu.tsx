@@ -2,9 +2,11 @@
 import Link from "next/link";
 import { X } from "lucide-react";
 import { useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function MobileMenu({ onClose }: { onClose: () => void }) {
-	// Prevent background scroll when open
+	const { data: session } = useSession();
+
 	useEffect(() => {
 		document.body.classList.add("overflow-hidden");
 		return () => document.body.classList.remove("overflow-hidden");
@@ -14,7 +16,6 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
 		{ label: "Home", href: "/" },
 		{ label: "About", href: "/about" },
 		{ label: "Pricing", href: "/pricing" },
-		{ label: "Sign In", href: "/signin" },
 	];
 
 	return (
@@ -48,19 +49,40 @@ export default function MobileMenu({ onClose }: { onClose: () => void }) {
 								</Link>
 							</li>
 						))}
+						<li>
+							{session ? (
+								<button
+									className="block w-full text-left py-3 px-3 rounded-lg text-lg font-medium text-gray-200 hover:bg-purple-700/20 hover:text-purple-300 transition"
+									onClick={() => {
+										signOut();
+										onClose();
+									}}
+								>
+									Log out
+								</button>
+							) : (
+								<Link
+									href="/signin"
+									className="block py-3 px-3 rounded-lg text-lg font-medium text-gray-200 hover:bg-purple-700/20 hover:text-purple-300 transition"
+									onClick={onClose}
+								>
+									Sign In
+								</Link>
+							)}
+						</li>
 					</ul>
 				</div>
 			</div>
 			{/* Simple fade-in animation */}
 			<style>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(-20px);}
-          to { opacity: 1; transform: none;}
-        }
-        .animate-fade-in {
-          animation: fade-in 0.18s cubic-bezier(.4,0,.2,1);
-        }
-      `}</style>
+		@keyframes fade-in {
+		  from { opacity: 0; transform: translateY(-20px);}
+		  to { opacity: 1; transform: none;}
+		}
+		.animate-fade-in {
+		  animation: fade-in 0.18s cubic-bezier(.4,0,.2,1);
+		}
+	  `}</style>
 		</>
 	);
 }
