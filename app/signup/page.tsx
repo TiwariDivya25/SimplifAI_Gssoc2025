@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 // import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Mail, Lock, User,  ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Toast } from "@/components/toasts";
@@ -55,8 +55,8 @@ export default function SignUpPage() {
 				callbackUrl: "/",
 			});
 		} else {
-			const data = await res.json();
-			setToast({ message: data.error || "Failed to sign up. Please try again.", type: "error" });
+			console.log(res);
+			// setToast({ message: data.error || "Failed to sign up. Please try again.", type: "error" });
 		}
 	};
 
