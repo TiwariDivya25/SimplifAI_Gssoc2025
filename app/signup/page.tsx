@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 // import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Mail, Lock, User, Github, Chrome, ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User,  ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Toast } from "@/components/toasts";
