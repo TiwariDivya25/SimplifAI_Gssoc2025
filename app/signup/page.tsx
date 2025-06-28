@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Lock, User, Github, Chrome, ArrowRight, Sparkles, Brain, Check, X } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
@@ -60,9 +60,9 @@ export default function SignUpPage() {
 		}
 	};
 
-	const handleSocialLogin = (provider: string) => {
-		signIn(provider);
-	};
+	// const handleSocialLogin = (provider: string) => {
+	// 	signIn(provider);
+	// };
 
 	return (
 		<div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center p-6">
@@ -106,7 +106,7 @@ export default function SignUpPage() {
 
 					<CardContent className="space-y-6">
 						{/* Social login buttons */}
-						<div className="space-y-3">
+						{/* <div className="space-y-3">
 							<Button
 								variant="outline"
 								className="w-full border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:border-zinc-600"
@@ -132,7 +132,7 @@ export default function SignUpPage() {
 							<div className="relative flex justify-center text-xs uppercase">
 								<span className="bg-zinc-900 px-2 text-zinc-500">Or continue with email</span>
 							</div>
-						</div>
+						</div> */}
 
 						{/* Registration form */}
 						<form onSubmit={handleSubmit} className="space-y-4">
