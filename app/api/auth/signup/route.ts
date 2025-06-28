@@ -6,7 +6,11 @@ export async function POST(req: Request) {
 	if (!name || !email || !password) {
 		return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
 	}
-	const existingUser = await prisma.user.findUnique({ where: { email } });
+	const existingUser = await prisma.user.findUnique({
+		where: {
+			email: email,
+		},
+	});
 	if (existingUser) {
 		return new Response(JSON.stringify({ error: "User already exists" }), { status: 409 });
 	}
