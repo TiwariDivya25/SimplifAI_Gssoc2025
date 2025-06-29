@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Simplifai 🚀
 
-## Getting Started
+**AI-Powered Learning Platform**  
+Transform your documents into flashcards, summaries, and quizzes with cutting-edge AI.
 
-First, run the development server:
+[![License](https://img.shields.io/github/license/Er-luffy-D/Simplifai?style=flat-square)](LICENSE)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-blue?style=flat-square)](https://simplif-ai-xi.vercel.app/)
+[![GitHub Repo stars](https://img.shields.io/github/stars/Er-luffy-D/Simplifai?style=social)](https://github.com/Er-luffy-D/Simplifai/stargazers)
+
+---
+
+## ✨ What is Simplifai?
+
+Simplifai is an open-source, AI-powered platform that revolutionizes learning by turning your documents (PDF, TXT) into concise summaries, interactive flashcards, and quizzes—instantly.
+
+- **Upload** any document
+- **Get** AI-generated summaries, key points, flashcards, and quizzes
+- **Accelerate** your learning with tailored, effective study materials
+
+Whether you’re a student, teacher, or lifelong learner, Simplifai makes learning easier, faster, and more enjoyable.
+
+---
+
+## 🌟 Features
+
+- **Smart Flashcards**: Instantly generate flashcards from your document content
+- **Concise Summaries**: Get the main points and key insights without reading the whole document
+- **Interactive Quizzes**: Test your understanding with AI-generated quizzes and explanations
+- **PDF & TXT Support**: Upload and process PDF or TXT files (additional formats coming soon)
+- **Secure & Private**: Your files are processed securely and never stored permanently
+
+---
+
+## 🖼️ Screenshots
+  
+![image](https://github.com/user-attachments/assets/0d19e247-b3e2-4720-87ed-5172164a2d65)
+<br><br>
+![image](https://github.com/user-attachments/assets/06b08719-a6c8-4cd1-9b93-755fe6de6d11)
+
+
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Er-luffy-D/Simplifai.git
+cd Simplifai
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Copy `.env.example` to `.env` and fill in the required secrets:
+
+```env
+DATABASE_URL=postgresql://...
+DIRECT_URL=postgresql://...
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+NEXT_PUBLIC_AI_URL=https://api.deepseek.com/v1/chat/completions
+AI_API_KEY=your_openrouter_api_key
+```
+
+### 4. Run Prisma migrations
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit [http://localhost:3000](http://localhost:3000) to use the app!
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🤖 How It Works
 
-## Learn More
+- **Frontend**: Next.js 14, React, Tailwind CSS, Redux Toolkit
+- **Auth**: NextAuth.js (Credentials & Google)
+- **AI Backend**: DeepSeek/OpenRouter API for document parsing and generation
+- **Database**: PostgreSQL with Prisma ORM
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💡 Why Simplifai?
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Personalized Learning**: Adapts to your pace and style
+- **Universal Access**: Free tier for students, advanced features for pros
+- **Open Source**: Contributions welcome!
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Roadmap
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [x] PDF & TXT parsing
+- [x] AI-generated summaries, flashcards, quizzes
+- [x] User authentication (NextAuth)
+- [ ] Retrieval-Augmented Generation (RAG) chat with documents
+- [ ] More file format support (DOCX, RTF)
+- [ ] Team/Enterprise features
+- [ ] Mobile-friendly design improvements
+
+---
+
+## 🤝 Contributing
+
+Want to help? PRs are welcome!  
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) (or open an issue to discuss your ideas).
+
+---
+
+## 🧑‍💻 Author
+
+- **Piyush Dixit** — [@piyushdixitizme](https://linkedin.com/in/piyushdixitizme) | [GitHub](https://github.com/Er-luffy-D)
+
+---
+
+## 📄 License
+
+MIT License. See [LICENSE](LICENSE).
+
+---
+
+## ⭐️ Star this repo if you like it!
+
+_Accelerate your learning. Empower your future. — Simplifai Team_
