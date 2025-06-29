@@ -37,6 +37,7 @@ Whether you’re a student, teacher, or lifelong learner, Simplifai makes learni
 <br><br>
 ![image](https://github.com/user-attachments/assets/06b08719-a6c8-4cd1-9b93-755fe6de6d11)
 <br><br>
+<p>Demo video </p>
 https://github.com/user-attachments/assets/8db3f7ca-6e1d-4e01-bc5c-d844c77baaa6
 
 ---
