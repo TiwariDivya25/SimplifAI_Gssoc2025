@@ -4,6 +4,7 @@ import { Features } from "@/components/features";
 import { HeroSection } from "@/components/hero-section";
 import { AnimatedBackground } from "@/components/animated-background";
 import { UserLabel } from "@/components/user-label";
+import OmniDimWidget from "@/components/Omnidev";
 
 export default function Home() {
 	return (
@@ -29,6 +30,7 @@ export default function Home() {
 						</CardFooter>
 					</Card>
 				</div>
+				<OmniDimWidget />
 			</div>
 		</main>
 	);
