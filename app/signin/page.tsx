@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles, Brain, Chrome } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles, Brain, Chrome, EyeIcon, EyeClosed } from "lucide-react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { Toast } from "@/components/toasts";
@@ -15,6 +15,7 @@ import { Toast } from "@/components/toasts";
 export default function SignInPage() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isEye, setIsEye] = useState(false);
 	const [formData, setFormData] = useState({
 		email: "",
 		password: "",
@@ -201,6 +202,20 @@ export default function SignInPage() {
 							</Link>
 						</p>
 					</CardFooter>
+					<div className="  justify-center w-full flex">
+						<div className="text-center text-md max-w-sm w-3xs sm:w-full text-zinc-400 ring-2 rounded-lg p-3">
+							<p className="font-medium text-zinc-300 mb-1">Test Email</p>
+							<p>
+								Email: test@test.com{" "}
+								{isEye ? (
+									<EyeIcon className="inline w-5 h-4 mr-2" onClick={() => setIsEye(!isEye)} />
+								) : (
+									<EyeClosed className="inline w-5 h-4 mr-2" onClick={() => setIsEye(!isEye)} />
+								)}
+							</p>
+							{isEye ? <p>Password: test@test.com</p> : <p></p>}
+						</div>
+					</div>
 				</Card>
 
 				{/* Footer */}
