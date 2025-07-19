@@ -2,6 +2,8 @@
 
 import type React from "react";
 import { useState } from "react";
+import { jsonrepair } from "jsonrepair";
+
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,6 +61,7 @@ export function FileUploader() {
 			setFile(droppedFile);
 		}
 	};
+
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!session.data?.user?.email) {
@@ -83,15 +86,25 @@ export function FileUploader() {
 		formData.append("type", file.type);
 
 		try {
-			const res = await axios.post(`/api/parse-pdf`, formData, {
-				headers: {},
-			});
-			const data = await res.data;
+			const res = await axios.post(`/api/parse-pdf`, formData);
+			const data = res.data;
 
-			const message = data.result.choices[0].message.content;
-			console.log("message:" + message);
-			console.log("Parsed m:" + JSON.parse(message));
-			const parseMessage = JSON.parse(message);
+			const rawMessage = data.result.choices?.[0]?.message?.content ?? "";
+
+			let parseMessage;
+			try {
+				const jsonMatch = rawMessage.match(/\{[\s\S]*\}/);
+				if (!jsonMatch) throw new Error("No valid JSON found");
+
+				const repaired = jsonrepair(jsonMatch[0]);
+				parseMessage = JSON.parse(repaired);
+			} catch (err) {
+				console.error("❌ Failed to parse or repair JSON:", err, "\nRaw message:\n", rawMessage);
+				setError("⚠️ The AI response was broken. Please try again with a different file or retry.");
+				clearInterval(progressInterval);
+				setUploading(false);
+				return;
+			}
 
 			dispatch(
 				Add_data({
@@ -109,10 +122,10 @@ export function FileUploader() {
 				router.push(`/results/${encodeURIComponent(file.name)}`);
 			}, 800);
 		} catch (e) {
-			console.error(e);
+			console.error("❌ Upload failed:", e);
 			clearInterval(progressInterval);
 			setUploading(false);
-			setError("Oops! The upload failed. Your file may have too many images or the server had a hiccup. Please try uploading again / with a different file.");
+			setError("Oops! The upload failed. The file may contain too many images or the server failed. Please try again.");
 		}
 	};
 
