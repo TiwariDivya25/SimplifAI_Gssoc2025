@@ -62,12 +62,23 @@ npm install
 Copy `.env.example` to `.env` and fill in the required secrets:
 
 ```env
-DATABASE_URL=postgresql://...
-DIRECT_URL=postgresql://...
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-NEXT_PUBLIC_AI_URL=https://api.deepseek.com/v1/chat/completions
-AI_API_KEY=your_openrouter_api_key
+# 🔐 AI Configuration
+AI_API_KEY="your_openrouter_or_deepseek_api_key"
+NEXT_PUBLIC_AI_URL="https://openrouter.ai/api/v1/chat/completions"
+NEXT_PUBLIC_BACKEND_URL="http://localhost:3000"
+
+# 🔐 Auth Configuration
+AUTH_SECRET="your_random_auth_secret"
+GOOGLE_CLIENT_ID="your_google_oauth_client_id"
+GOOGLE_CLIENT_SECRET="your_google_oauth_client_secret"
+
+# 🗄️ Database
+
+DATABASE_URL="postgresql://username:password@host:port/dbname" 
+DIRECT_URL="postgresql://username:password@host:port/dbname"    
+
+# 🔑 Other Secrets (omnidim chatbot)
+NEXT_PUBLIC_OMNIDIM_SECRET_KEY="your_public_secret_key"
 ```
 
 ### 4. Run Prisma migrations
