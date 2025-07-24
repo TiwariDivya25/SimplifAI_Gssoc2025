@@ -6,30 +6,30 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import jsPDF from "jspdf";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 interface MainPoint {
-  keyPoint: string;
+	keyPoint: string;
 }
 
 interface Recommendation {
-  statement: string;
+	statement: string;
 }
 
 interface SummaryData {
-  mainPoints: MainPoint[];
-  keyInsights: string;
-  recommendations: Recommendation[];
+	mainPoints: MainPoint[];
+	keyInsights: string;
+	recommendations: Recommendation[];
 }
 
 interface QuizItem {
-  question: string;
-  options: string[];
-  correct: number;
+	question: string;
+	options: string[];
+	correct: number;
 }
 
 export function ResultsHeader({ fileName }: { fileName: string }) {
@@ -59,7 +59,6 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 
 		pdf.setFont("helvetica");
 
-
 		pdf.setFontSize(20);
 		pdf.setFont("helvetica", "bold");
 		pdf.text("SimplifAI Summary Report", margin, yPosition);
@@ -83,14 +82,14 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 
 		pdf.setFontSize(11);
 		pdf.setFont("helvetica", "normal");
-		
+
 		if (summaryData.mainPoints && Array.isArray(summaryData.mainPoints)) {
 			summaryData.mainPoints.forEach((point: MainPoint, index: number) => {
-				if (yPosition > 270) { 
+				if (yPosition > 270) {
 					pdf.addPage();
 					yPosition = 30;
 				}
-				
+
 				const pointText = `${index + 1}. ${point.keyPoint}`;
 				const lines = pdf.splitTextToSize(pointText, maxWidth - 10);
 				pdf.text(lines, margin + 5, yPosition);
@@ -112,7 +111,7 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 
 		pdf.setFontSize(11);
 		pdf.setFont("helvetica", "normal");
-		
+
 		if (summaryData.keyInsights) {
 			const insightLines = pdf.splitTextToSize(summaryData.keyInsights, maxWidth);
 			pdf.text(insightLines, margin, yPosition);
@@ -131,14 +130,14 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 
 		pdf.setFontSize(11);
 		pdf.setFont("helvetica", "normal");
-		
+
 		if (summaryData.recommendations && Array.isArray(summaryData.recommendations)) {
 			summaryData.recommendations.forEach((recommendation: Recommendation, index: number) => {
 				if (yPosition > 270) {
 					pdf.addPage();
 					yPosition = 30;
 				}
-				
+
 				const recText = `${index + 1}. ${recommendation.statement}`;
 				const lines = pdf.splitTextToSize(recText, maxWidth - 10);
 				pdf.text(lines, margin + 5, yPosition);
@@ -177,7 +176,7 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 						pdf.addPage();
 						yPosition = 30;
 					}
-					
+
 					const optionText = `   ${String.fromCharCode(65 + optionIndex)}. ${option}`;
 					const optionLines = pdf.splitTextToSize(optionText, maxWidth - 10);
 					pdf.text(optionLines, margin + 5, yPosition);
@@ -197,25 +196,25 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 
 			pdf.setFontSize(10);
 			pdf.setFont("helvetica", "normal");
-			
+
 			const cols = 5;
 			const colWidth = (maxWidth - 20) / cols;
 			let currentCol = 0;
 			let currentRow = 0;
 
 			quizData.forEach((quiz: QuizItem, index: number) => {
-				if (yPosition + (currentRow * 15) > 270) {
+				if (yPosition + currentRow * 15 > 270) {
 					pdf.addPage();
 					yPosition = 30;
 					currentRow = 0;
 				}
 
-				const xPos = margin + (currentCol * colWidth);
-				const yPos = yPosition + (currentRow * 15);
-				
+				const xPos = margin + currentCol * colWidth;
+				const yPos = yPosition + currentRow * 15;
+
 				const correctLetter = String.fromCharCode(64 + quiz.correct); // A=1, B=2, etc.
 				const answerText = `${index + 1}. ${correctLetter}`;
-				
+
 				pdf.text(answerText, xPos, yPos);
 
 				currentCol++;
@@ -272,10 +271,10 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 				</div>
 				<div className="flex items-center gap-2">
 					<div className="flex items-center">
-						<Button 
-							variant="outline" 
-							size="sm" 
-							className="hidden sm:flex bg-red-50 hover:bg-red-100 border-red-200 text-red-700 hover:text-red-800 rounded-r-none border-r-0" 
+						<Button
+							variant="outline"
+							size="sm"
+							className="hidden sm:flex bg-red-50 hover:bg-red-100 border-red-200 text-white hover:text-blue-500 rounded-r-none border-r-0"
 							onClick={handleExportPDF}
 						>
 							<FileText className="w-4 h-4 mr-2" />
@@ -283,16 +282,16 @@ export function ResultsHeader({ fileName }: { fileName: string }) {
 						</Button>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
-								<Button 
-									variant="outline" 
-									size="sm" 
-									className="hidden sm:flex bg-red-50 hover:bg-red-100 border-red-200 text-red-700 hover:text-red-800 rounded-l-none px-2" 
+								<Button
+									variant="outline"
+									size="sm"
+									className="hidden sm:flex bg-red-50 hover:bg-red-100 border-red-200 text-white hover:text-blue-500 rounded-l-none px-2"
 								>
 									<MoreVertical className="w-3 h-3" />
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
-								<DropdownMenuItem onClick={handleExportJSON} className="cursor-pointer">
+								<DropdownMenuItem onClick={handleExportJSON} className="cursor-pointer ring-2 ring-slate-400/40">
 									<Braces className="w-4 h-4 mr-2" />
 									Export as JSON
 								</DropdownMenuItem>
