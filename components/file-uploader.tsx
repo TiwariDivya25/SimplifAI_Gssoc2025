@@ -21,11 +21,16 @@ export function FileUploader() {
 	const [uploading, setUploading] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [error, setError] = useState<string | null>(null);
+	const [info, setInfo] = useState<string | null>(null);
 	const [dragActive, setDragActive] = useState(false);
-	const [summaryLength, setSummaryLength] = useState<'short' | 'medium' | 'long'>('short');
+	const [summaryLength, setSummaryLength] = useState<"short" | "medium" | "long">("short");
 	const router = useRouter();
 	const session = useSession();
 
+	const handleInfo = (message: string) => {
+		setInfo(message);
+		setTimeout(() => setInfo(null), 3800);
+	};
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
 			const selectedFile = e.target.files[0];
@@ -78,7 +83,7 @@ export function FileUploader() {
 		const progressInterval = setInterval(() => {
 			setProgress((prev) => {
 				if (prev >= 60) return prev;
-				return prev + Math.random() * 10 + 5;
+				return prev + Math.random() * 10 + Math.random() * 5;
 			});
 		}, 200);
 
@@ -134,6 +139,7 @@ export function FileUploader() {
 	return (
 		<form onSubmit={handleSubmit} className="space-y-6">
 			{error && <Toast message={error} type="error" onClose={() => setError(null)} />}
+			{info && <Toast message={info} type="info" onClose={() => setError(null)} />}
 			<div className="grid w-full gap-4">
 				{/* Summary Length Selection */}
 				<div className="space-y-3">
@@ -141,30 +147,36 @@ export function FileUploader() {
 					<div className="flex gap-2">
 						<Button
 							type="button"
-							variant={summaryLength === 'short' ? 'default' : 'outline'}
+							variant={summaryLength === "short" ? "default" : "outline"}
 							size="sm"
-							onClick={() => setSummaryLength('short')}
-							className={`flex-1 ${summaryLength === 'short' ? 'bg-violet-500 hover:bg-violet-700' : ''}`}
+							onClick={() => setSummaryLength("short")}
+							className={`flex-1 ${summaryLength === "short" ? "bg-violet-500 hover:bg-violet-700" : ""}`}
 						>
 							Short
 							<span className="text-xs ml-1 opacity-75">(3-4 points)</span>
 						</Button>
 						<Button
 							type="button"
-							variant={summaryLength === 'medium' ? 'default' : 'outline'}
+							variant={summaryLength === "medium" ? "default" : "outline"}
 							size="sm"
-							onClick={() => setSummaryLength('medium')}
-							className={`flex-1 ${summaryLength === 'medium' ? 'bg-violet-500 hover:bg-violet-700' : ''}`}
+							onClick={() => {
+								setSummaryLength("medium");
+								handleInfo("It will take too long to process. Use less size files 1-2 MB for medium summaries.");
+							}}
+							className={`flex-1 ${summaryLength === "medium" ? "bg-violet-500 hover:bg-violet-700" : ""}`}
 						>
 							Medium
 							<span className="text-xs ml-1 opacity-75">(6-8 points)</span>
 						</Button>
 						<Button
 							type="button"
-							variant={summaryLength === 'long' ? 'default' : 'outline'}
+							variant={summaryLength === "long" ? "default" : "outline"}
 							size="sm"
-							onClick={() => setSummaryLength('long')}
-							className={`flex-1 ${summaryLength === 'long' ? 'bg-violet-500 hover:bg-violet-700' : ''}`}
+							onClick={() => {
+								setSummaryLength("long");
+								handleInfo("It will take too long to process. Use less size files 1-2 MB for long summaries.");
+							}}
+							className={`flex-1 ${summaryLength === "long" ? "bg-violet-500 hover:bg-violet-700" : ""}`}
 						>
 							Long
 							<span className="text-xs ml-1 opacity-75">(9-10 points)</span>
