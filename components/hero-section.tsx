@@ -27,7 +27,7 @@ export function HeroSection() {
 					Powered by AI
 				</div>
 
-				<h1 className="text-[30px] font-extrabold tracking-tight sm:text-5xl md:text-6xl animate-fade-in-up">
+				<h1 className="text-[40px] font-extrabold tracking-tight sm:text-5xl md:text-6xl animate-fade-in-up">
 					Simplify your learning with <span className="text-gradient-purple-pink">Simplifai</span>
 				</h1>
 
