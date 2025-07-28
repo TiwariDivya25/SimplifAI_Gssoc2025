@@ -5,7 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import StoreProvider from "./store-provider";
 import { SessionProviderC } from "@/components/SessionProviderC";
-import { LoadingProvider } from "@/components/loading-provider";	
+import { LoadingProvider } from "@/components/loading-provider";
 import LenisProvider from "@/components/LenisProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={inter.className}>
-				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
+				<ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
 					<LoadingProvider>
 						<SessionProviderC>
 							<StoreProvider>
