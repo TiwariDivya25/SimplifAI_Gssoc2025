@@ -96,7 +96,9 @@ export function FlashcardView() {
                             size="sm"
                             onClick={toggleFavorite}
                             className="hover:scale-110 transition-all duration-300"
-                        >
+                            	data-cursor="hover"
+							data-cursor-text="Add to Favorites"
+                          >
                             <Star className={`w-4 h-4 ${favorites.includes(currentCard) ? "fill-yellow-400 text-yellow-400" : ""}`} />
                         </Button>
                         <Button
@@ -104,7 +106,9 @@ export function FlashcardView() {
                             size="sm"
                             onClick={resetCards}
                             className="hover:scale-110 transition-all duration-300"
-                        >
+                        data-cursor="hover"
+							data-cursor-text="Reset Card"
+                          >
                             <RotateCcw className="w-4 h-4 mr-2" />
                             Reset
                         </Button>
@@ -113,7 +117,8 @@ export function FlashcardView() {
                             size="sm"
                             onClick={shuffleCards}
                             className="hover:scale-110 transition-all duration-300"
-                        >
+                          data-cursor="hover" data-cursor-text="Shuffle Cards"
+                          >
                             <Shuffle className="w-4 h-4 mr-2" />
                             Shuffle
                         </Button>
@@ -124,7 +129,9 @@ export function FlashcardView() {
                     <Button
                         onClick={prevCard}
                         className="shrink-0 w-2 h-40 sm:w-2 sm:h-28 md:w-2 md:h-50 hover:scale-110 bg-neutral-900 hover:bg-neutral-700 text-white transition-all duration-300 flex items-center justify-center"
-                    >
+                     			data-cursor="hover"
+					data-cursor-text="Previous Card"
+                      >
                         <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                     </Button>
 
@@ -138,6 +145,8 @@ export function FlashcardView() {
                                 transformStyle: "preserve-3d",
                                 transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
                             }}
+                          	data-cursor="hover"
+						data-cursor-text="Flip Card"
                         >
                             <div
                                 className="absolute inset-0 flex items-center justify-center p-8 text-center backface-hidden rounded-lg border-2 border-dashed border-primary/20"
@@ -171,7 +180,9 @@ export function FlashcardView() {
                     <Button
                         onClick={nextCard}
                         className="shrink-0 w-2 h-24 sm:w-2 sm:h-40 md:w-2 md:h-50 hover:scale-110 bg-neutral-900 hover:bg-neutral-700 text-white transition-all duration-300 flex items-center justify-center"
-                    >
+                      	data-cursor="hover"
+					data-cursor-text="Next Card"
+                      >
                         <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                     </Button>
                 </div>
@@ -183,7 +194,9 @@ export function FlashcardView() {
                     variant="outline"
                     size="icon"
                     className="hover:scale-110 hover:bg-primary/10 transition-all duration-300"
-                >
+                  			data-cursor="hover"
+					data-cursor-text="Previous Card"
+                  >
                     <ChevronLeft className="w-5 h-5" />
                     <span className="sr-only">Previous card</span>
                 </Button>
@@ -207,7 +220,9 @@ export function FlashcardView() {
                     variant="outline"
                     size="icon"
                     className="hover:scale-110 hover:bg-primary/10 transition-all duration-300"
-                >
+                data-cursor="hover"
+					data-cursor-text="Next Card"
+                  >
                     <ChevronRight className="w-5 h-5" />
                     <span className="sr-only">Next card</span>
                 </Button>
