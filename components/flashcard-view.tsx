@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
-
+import { useArrowNav } from "../hooks/useArrowNav.js";
 type FlashCards = {
   question: string;
   answer: string;
@@ -44,6 +44,9 @@ export function FlashcardView() {
       );
     }, 200);
   };
+
+
+  useArrowNav({onPrev:prevCard, onNext:nextCard});
 
   const toggleFavorite = () => {
     setFavorites((prev) =>
