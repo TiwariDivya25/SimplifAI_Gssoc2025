@@ -23,9 +23,7 @@ type QuizItem = {
 };
 
 export function QuizView() {
- const data = useSelector(
-    (state: RootState) => state.parse.quiz
-  ) as QuizItem[];
+  const data = useSelector((state: RootState) => state.parse.quiz) as QuizItem[];
   const quizQuestions = data || [];
 
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -37,12 +35,11 @@ export function QuizView() {
   );
   const [isAnswered, setIsAnswered] = useState<boolean[]>(
     Array(quizQuestions.length).fill(false)
-  ); // to track the questions which have been answered
+  );
 
-  if (!quizQuestions.length)
-    return (
-      <p className="text-center text-muted-foreground">No quiz data found.</p>
-    );
+  if (!quizQuestions.length) {
+    return <p className="text-center text-muted-foreground">No quiz data found.</p>;
+  }
 
   const correctIndex = (questionIndex: number) => {
     const correct = quizQuestions[questionIndex].correct;
@@ -56,6 +53,7 @@ export function QuizView() {
 
   const handleNext = () => {
     if (selectedOption === null) return;
+
     const prevAnswer = answers[currentQuestion];
     const isPrevCorrect = prevAnswer === correctIndex(currentQuestion);
     const isCurrentCorrect = selectedOption === correctIndex(currentQuestion);
@@ -70,7 +68,6 @@ export function QuizView() {
     setAnswers(newAnswers);
     setScore(newScore);
 
-    // Lock the question as answered
     const newIsAnswered = [...isAnswered];
     newIsAnswered[currentQuestion] = true;
     setIsAnswered(newIsAnswered);
@@ -96,11 +93,29 @@ export function QuizView() {
     setQuizCompleted(false);
     setScore(0);
     setAnswers(Array(quizQuestions.length).fill(null));
-	setIsAnswered(Array(quizQuestions.length).fill(false)); //updates the reset state of answered questions
+    setIsAnswered(Array(quizQuestions.length).fill(false));
   };
 
   const isPreviouslyAnswered = answers[currentQuestion] !== null;
   const currentCorrectAnswer = correctIndex(currentQuestion);
+
+  const getOptionClasses = (index: number) => {
+    const base =
+      "flex items-center space-x-2 rounded-md border p-3 transition-all duration-300 hover:scale-[1.02] cursor-pointer";
+    const isSelected = selectedOption === index;
+    const isCorrect = isPreviouslyAnswered && index === currentCorrectAnswer;
+    const isIncorrect =
+      isPreviouslyAnswered &&
+      answers[currentQuestion] === index &&
+      index !== currentCorrectAnswer;
+
+    return [
+      base,
+      isSelected ? "border-primary bg-primary/10 scale-[1.02]" : "",
+      isCorrect ? "border-green-500 bg-green-500/10" : "",
+      isIncorrect ? "border-red-500 bg-red-500/10" : "",
+    ].join(" ");
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -115,9 +130,7 @@ export function QuizView() {
                 Score: {score}/{quizQuestions.length}
               </span>
             </div>
-            <CardDescription>
-              Select the best answer based on the document content
-            </CardDescription>
+            <CardDescription>Select the best answer based on the document content</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="mb-6">
@@ -129,56 +142,36 @@ export function QuizView() {
                 onValueChange={handleOptionSelect}
               >
                 <div className="space-y-3">
-                  {quizQuestions[currentQuestion].options.map(
-                    (option, index) => (
-                      <div
-                        key={index}
-                        className={`flex items-center space-x-2 rounded-md border p-3 transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
-                          selectedOption === index
-                            ? "border-primary bg-primary/10 scale-[1.02]"
-                            : ""
-                        } ${
-                          isPreviouslyAnswered && index === currentCorrectAnswer
-                            ? "border-green-500 bg-green-500/10"
-                            : ""
-                        } ${
-                          isPreviouslyAnswered &&
-                          answers[currentQuestion] === index &&
-                          index !== currentCorrectAnswer
-                            ? "border-red-500 bg-red-500/10"
-                            : ""
-                        }`}
-                        onClick={() => {    // Handle click to select option
-                          if (!isAnswered[currentQuestion]) {
-                            handleOptionSelect(index.toString());
-                          }
-                        }}
-                        data-cursor="hover"
-											data-cursor-text={`Option ${index + 1}`}
-                      >
-                        <RadioGroupItem
-                          value={index.toString()}
-                          id={`option-${index}`}
-                          disabled={isAnswered[currentQuestion]} //Disable the changes in ans if answered
-                        />
-                        <Label
-                          htmlFor={`option-${index}`}
-                          className="flex-1 cursor-pointer"
-                        >
-                          {option}
-                        </Label>
-                        {isPreviouslyAnswered &&
-                          index === currentCorrectAnswer && (
-                            <CheckCircle2 className="w-5 h-5 text-green-500" />
-                          )}
-                        {isPreviouslyAnswered &&
-                          answers[currentQuestion] === index &&
-                          index !== currentCorrectAnswer && (
-                            <XCircle className="w-5 h-5 text-red-500" />
-                          )}
-                      </div>
-                    )
-                  )}
+                  {quizQuestions[currentQuestion].options.map((option, index) => (
+                    <div
+                      key={index}
+                      className={getOptionClasses(index)}
+                      onClick={() => {
+                        if (!isAnswered[currentQuestion]) {
+                          handleOptionSelect(index.toString());
+                        }
+                      }}
+                      data-cursor="hover"
+                      data-cursor-text={`Option ${index + 1}`}
+                    >
+                      <RadioGroupItem
+                        value={index.toString()}
+                        id={`option-${index}`}
+                        disabled={isAnswered[currentQuestion]}
+                      />
+                      <Label htmlFor={`option-${index}`} className="flex-1 cursor-pointer">
+                        {option}
+                      </Label>
+                      {isPreviouslyAnswered && index === currentCorrectAnswer && (
+                        <CheckCircle2 className="w-5 h-5 text-green-500" />
+                      )}
+                      {isPreviouslyAnswered &&
+                        answers[currentQuestion] === index &&
+                        index !== currentCorrectAnswer && (
+                          <XCircle className="w-5 h-5 text-red-500" />
+                        )}
+                    </div>
+                  ))}
                 </div>
               </RadioGroup>
             </div>
@@ -189,15 +182,16 @@ export function QuizView() {
               disabled={currentQuestion === 0}
               variant="outline"
               data-cursor="hover"
-
-							data-cursor-text="Previous Question"
+              data-cursor-text="Previous Question"
             >
               Back
             </Button>
-            <Button onClick={handleNext} disabled={selectedOption === null}
+            <Button
+              onClick={handleNext}
+              disabled={selectedOption === null}
               data-cursor="button"
-
-							data-cursor-text="Next Question">
+              data-cursor-text="Next Question"
+            >
               {currentQuestion < quizQuestions.length - 1 ? "Next" : "Submit"}
             </Button>
           </CardFooter>
@@ -234,7 +228,12 @@ export function QuizView() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={resetQuiz} className="w-full" data-cursor="button" data-cursor-text="Restart Quiz">
+            <Button
+              onClick={resetQuiz}
+              className="w-full"
+              data-cursor="button"
+              data-cursor-text="Restart Quiz"
+            >
               Restart Quiz
             </Button>
           </CardFooter>
