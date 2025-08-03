@@ -1,12 +1,20 @@
+import { prisma } from "@/lib/prisma";
 import axios from "axios";
+import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
 import pdfParse from "pdf-parse";
+import { gzipSync } from "zlib";
 
 export async function POST(req: NextRequest) {
 	const formData = await req.formData();
 	const file = formData.get("file") as File | null;
 	const fileType = formData.get("type") as string | null;
 	const summaryLength = formData.get("summaryLength") as string | null;
+
+	const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+	if (!token) {
+		return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+	}
 
 	if (!file) {
 		return new Response(JSON.stringify({ error: "No file uploaded" }), { status: 400 });
@@ -170,6 +178,19 @@ ${textContent}`;
 			} catch (jsonParseErr) {
 				console.warn("Could not extract clean JSON:", jsonParseErr);
 			}
+
+			const dataToSave = gzipSync(textContent).toString("base64");
+			await prisma.parsedDocument.create({
+				data: {
+					docName: file.name,
+					content: dataToSave,
+					user: {
+						connect: {
+							email: token?.email || "",
+						},
+					},
+				},
+			});
 
 			return new Response(JSON.stringify({ result: jsonOnly }), {
 				headers: { "Content-Type": "application/json" },

@@ -15,14 +15,15 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String           @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String           @unique
   password      String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  parsedDocs    ParsedDocument[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,3 +68,11 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+model ParsedDocument {
+  id        String   @id @default(cuid())
+  docName   String
+  content   String
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
