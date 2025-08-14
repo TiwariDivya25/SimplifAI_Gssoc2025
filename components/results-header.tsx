@@ -316,7 +316,7 @@ export function ResultsHeader({ parsedDocument }: { parsedDocument: ParsedDocume
                         <Button
                             variant="outline"
                             size="sm"
-                            className="hidden sm:flex bg-red-50 hover:bg-red-100 border-red-200 text-white hover:text-blue-500 rounded-r-none border-r-0"
+                            className="hidden sm:flex bg-red-400 hover:bg-red-500 border-red-200 text-white hover:text-blue-500 rounded-r-none border-r-0"
                             onClick={handleExportPDF}
                             data-cursor="hover"
                             data-cursor-text="Export as PDF"

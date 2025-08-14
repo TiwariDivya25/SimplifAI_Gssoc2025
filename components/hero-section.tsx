@@ -9,7 +9,8 @@ export function HeroSection() {
 	};
 	const user = useSession().data?.user;
 	return (
-		<div className="relative bg-gradient-to-br from-primary/10 via-purple-50/50 to-pink-50/30 dark:from-primary/5 dark:via-purple-950/20 dark:to-pink-950/10 pt-28 sm:pt-20 pb-16 overflow-hidden">
+		//Hero Bg Update - Devika Harshey
+		<div className="relative bg-gradient-to-br from-primary/5 via-purple-950/20 to-pink-950/10 pt-28 sm:pt-20 pb-16 overflow-hidden">
 			{/* Floating elements */}
 			<div className="absolute top-20 left-10 animate-bounce-slow">
 				<Brain className="w-8 h-8 text-purple-400 opacity-60" />

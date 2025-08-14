@@ -197,7 +197,7 @@ Start the app on http://localhost:3000
 ## Stop the App
 
 docker compose down
-
+```
 
 ## 📄 License
 
