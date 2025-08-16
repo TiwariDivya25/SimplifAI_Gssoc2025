@@ -36,7 +36,22 @@ jobs:
   assign:
     runs-on: ubuntu-latest
     steps:
-      - name: Auto Assign Issue to Author
-        uses: pozil/auto-assign-issue@v1
-        with:
-          assignee: ${{ github.event.issue.user.login }}
+    - name: Auto Assign Issue Author (skip if owner)
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const issueNumber = context.issue.number;
+          const issueAuthor = context.payload.issue.user.login;
+          const repoOwner = context.repo.owner;
+
+          if (issueAuthor === repoOwner) {
+            console.log(`Skipping assignment: issue created by repo owner (${repoOwner}).`);
+          } else {
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              assignees: [issueAuthor]
+            });
+            console.log(`Assigned issue #${issueNumber} to ${issueAuthor}.`);
+          }
