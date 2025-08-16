@@ -16,7 +16,7 @@ export const RecentActivity = async () => {
     const userId = user.id;
     const stats = await getDocStats(userId);
     return (
-        <div className=" p-4 rounded-lg shadow border-4">
+        <div className=" p-4 rounded-lg shadow border-4 h-[25vh]">
             <h2 className="text-lg font-bold mb-4">Recent Activity</h2>
             <ul className="divide-y divide-gray-200">
                 {stats.recentDocs.length > 0 ? (
