@@ -23,7 +23,7 @@ const dummyData: ChartDataItem[] = [
 
 export default function ChartAreaClient({ chartData = dummyData }: { chartData?: ChartDataItem[] }) {
   return (
-    <Card className="w-full p-4 mb-10"> {/* full width, padding, margin below */}
+    <Card className="w-full p-4 mb-10"> 
       <CardHeader>
         <CardTitle>Status Of Documents Processed</CardTitle>
         <CardDescription>Total per day</CardDescription>
@@ -34,7 +34,7 @@ export default function ChartAreaClient({ chartData = dummyData }: { chartData?:
         </div>
       </CardHeader>
 
-      {/* Chart wrapper with fixed height */}
+    
       <div className="w-full h-72">
         <ChartContainer
           className="relative w-full h-full"
