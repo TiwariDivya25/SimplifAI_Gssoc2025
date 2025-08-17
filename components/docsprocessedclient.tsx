@@ -31,7 +31,8 @@ type ChartAreaClientProps = {
 
 export default function ChartAreaClient({ stats, chartData }: ChartAreaClientProps) {
     return (
-        
+        <>
+        <h1>Total Documents Processed</h1>
                 <ChartContainer config={chartConfig}>
                     <AreaChart
                         accessibilityLayer
@@ -59,6 +60,7 @@ export default function ChartAreaClient({ stats, chartData }: ChartAreaClientPro
                         />
                     </AreaChart>
                 </ChartContainer>
+                </>
             
     );
 }

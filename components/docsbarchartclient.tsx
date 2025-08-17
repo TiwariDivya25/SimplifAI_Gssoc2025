@@ -11,17 +11,9 @@ type ChartDataItem = {
   pending: number
 }
 
-const dummyData: ChartDataItem[] = [
-  { date: "2025-08-01", total: 12, success: 9, pending: 3 },
-  { date: "2025-08-02", total: 18, success: 15, pending: 3 },
-  { date: "2025-08-03", total: 20, success: 18, pending: 2 },
-  { date: "2025-08-04", total: 25, success: 20, pending: 5 },
-  { date: "2025-08-05", total: 22, success: 21, pending: 1 },
-  { date: "2025-08-06", total: 30, success: 28, pending: 2 },
-  { date: "2025-08-07", total: 27, success: 25, pending: 2 },
-]
 
-export default function ChartAreaClient({ chartData = dummyData }: { chartData?: ChartDataItem[] }) {
+
+export default function ChartAreaClient({ chartData }: { chartData?: ChartDataItem[] }) {
   return (
     <Card className="w-full p-4 mb-10"> 
       <CardHeader>

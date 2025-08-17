@@ -22,8 +22,7 @@ export function Features() {
 			bgGradient: "bg-green-500/10",
 			textColor: "text-green-500",
 			borderColor: "bg-[radial-gradient(#22c55e_40%,transparent_60%)]",
-			link: "./summaries",
-			linkText: "Generate Summary",
+			
 		},
 		{
 			icon: <ListChecks />,
@@ -32,8 +31,7 @@ export function Features() {
 			bgGradient: "bg-purple-500/10",
 			textColor: "text-purple-500",
 			borderColor: "bg-[radial-gradient(#a855f7_40%,transparent_60%)]",
-			link: "./quizzes",
-			linkText: "Take Quiz",
+			
 		},
 		{
 			icon: <MessageSquare />,
@@ -42,8 +40,7 @@ export function Features() {
 			bgGradient: "bg-orange-500/10",
 			textColor: "text-orange-500",
 			borderColor: "bg-[radial-gradient(#f97316_40%,transparent_60%)]",
-			link: "./chat",
-			linkText: "Chat with Document",
+			
 		},
 		{
 			icon: <FileType2 />,
@@ -52,8 +49,7 @@ export function Features() {
 			bgGradient: "bg-indigo-500/10",
 			textColor: "text-indigo-500",
 			borderColor: "bg-[radial-gradient(#6366f1_40%,transparent_60%)]",
-			link: "./upload",	
-			linkText: "Upload Document",
+		
 		},
 		{
 			icon: <TrendingUp />,
@@ -62,15 +58,14 @@ export function Features() {
 			bgGradient: "bg-rose-500/10",
 			textColor: "text-rose-500",
 			borderColor: "bg-[radial-gradient(#f43f5e_40%,transparent_60%)]",
-			link: "./progress",
-			linkText: "View Progress",
+			
 		},
 	];
 
 	return (
 		<>
 			{features.map((feature, index) => (
-				<Link href={feature.link}><div
+				<div
 					key={index}
 					className="group relative overflow-hidden bg-transparent p-[1px] rounded-xl transition-all duration-500 hover:scale-105 animate-fade-in-up cursor-pointer"
 					style={{ animationDelay: `${index * 100}ms` }}
@@ -98,7 +93,7 @@ export function Features() {
 							{feature.description}
 						</p>
 					</div>
-				</div></Link>
+				</div>
 			))}
 		</>
 	);
