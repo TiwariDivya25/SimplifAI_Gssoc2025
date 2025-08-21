@@ -1,13 +1,24 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap, Sparkles, Brain, Rocket } from "lucide-react";
-import { useSession } from "next-auth/react";
 
-export function HeroSection() {
+export function ProgressSection({
+	user,
+}: {
+	user: {
+		name: string | null;
+		id: string;
+		email: string;
+		password: string | null;
+		emailVerified: Date | null;
+		image: string | null;
+		createdAt: Date;
+		updatedAt: Date;
+	} | null;
+}) {
 	const handleGetStarted = () => {
 		window.location.href = "/";
 	};
-	const user = useSession().data?.user;
 	return (
 		<div className="relative bg-gradient-to-br from-primary/10 via-purple-50/50 to-pink-50/30 dark:from-primary/5 dark:via-purple-950/20 dark:to-pink-950/10 pt-28 sm:pt-20 pb-16 overflow-hidden">
 			{/* Floating elements */}
@@ -77,8 +88,6 @@ export function HeroSection() {
 						Learn More
 					</Button>
 				</div>
-
-				
 			</div>
 		</div>
 	);
