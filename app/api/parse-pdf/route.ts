@@ -166,20 +166,20 @@ Return the following structure filled with meaningful, well-written content base
 INPUT TEXT:
 ${textContent}`;
 
-        const openRouterPayload = {
-            model: "deepseek/deepseek-r1-0528-qwen3-8b:free",
-            response_format: "json",
-            messages: [
-                {
-                    role: "system",
-                    content: "You are a strict JSON generator assistant. Always reply with valid JSON only.",
-                },
-                {
-                    role: "user",
-                    content: prompt,
-                },
-            ],
-        };
+		const openRouterPayload = {
+			model: "deepseek/deepseek-chat-v3.1:free",
+			response_format: "json",
+			messages: [
+				{
+					role: "system",
+					content: "You are a strict JSON generator assistant. Always reply with valid JSON only.",
+				},
+				{
+					role: "user",
+					content: prompt,
+				},
+			],
+		};
 
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_AI_URL}`, openRouterPayload, {
