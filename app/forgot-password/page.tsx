@@ -6,8 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Mail, ArrowLeft, CheckCircle, Brain, AlertTriangle, Loader2 } from "lucide-react";
-import Link from "next/link";
-import React from "react"; // Explicitly import React as a good practice
+import React from "react";
 
 export default function ForgotPasswordPage() {
 	const [email, setEmail] = useState("");
@@ -24,6 +23,7 @@ export default function ForgotPasswordPage() {
 		try {
 			await new Promise((resolve, reject) => {
 				setTimeout(() => {
+					// Simulate a success or failure
 					if (Math.random() > 0.3) {
 						resolve(true);
 					} else {
@@ -59,11 +59,11 @@ export default function ForgotPasswordPage() {
 			{/* Main content */}
 			<div className="w-full max-w-md relative z-10">
 				<div className="text-center mb-8">
-					<Link href="/" className="inline-block mb-6">
+					<a href="/" className="inline-block mb-6">
 						<span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
 							Simplifai
 						</span>
-					</Link>
+					</a>
 				</div>
 
 				<Card className="bg-zinc-900/50 border-zinc-800 backdrop-blur-sm">
@@ -93,12 +93,6 @@ export default function ForgotPasswordPage() {
 											/>
 										</div>
 									</div>
-									{error && (
-										<div className="flex items-center p-3 text-sm text-red-400 border border-red-500/50 rounded-md bg-red-500/10">
-											<AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
-											<span>{error}</span>
-										</div>
-									)}
 									<Button
 										type="submit"
 										className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-medium"
@@ -193,13 +187,13 @@ export default function ForgotPasswordPage() {
 						</>
 					)}
 					<CardFooter>
-						<Link
+						<a
 							href="/signin"
 							className="flex items-center justify-center w-full text-sm text-zinc-400 hover:text-white transition-colors"
 						>
 							<ArrowLeft className="w-4 h-4 mr-2" />
 							Back to sign in
-						</Link>
+						</a>
 					</CardFooter>
 				</Card>
 			</div>
